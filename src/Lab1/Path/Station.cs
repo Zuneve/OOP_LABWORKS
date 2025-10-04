@@ -3,27 +3,25 @@ using Itmo.ObjectOrientedProgramming.Lab1.ResultInfo;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Path;
 
-public class Station : PathBase
+public class Station : IPath
 {
     private TimeDuration StopTimeDuration { get; }
 
     private MaxAllowedSpeed StationMaxAllowedSpeed { get; }
 
-    public Station(Length pathLength, TimeDuration stopTimeDuration, MaxAllowedSpeed maxAllowedSpeed)
-        : base(pathLength)
+    public Station(TimeDuration stopTimeDuration, MaxAllowedSpeed maxAllowedSpeed)
     {
         StopTimeDuration = stopTimeDuration;
         StationMaxAllowedSpeed = maxAllowedSpeed;
     }
 
-    public override SegmentResult TryPassPath(Train trainInfo)
+    public PathResult TryPassPath(Train trainInfo)
     {
-        PathLength.ToZero();
         if (trainInfo.TrainSpeed.Value > StationMaxAllowedSpeed.Value)
         {
-            return new SegmentResult.Failed();
+            return new PathResult.Failed();
         }
 
-        return new SegmentResult.Success(new TimeDuration(StopTimeDuration.Value), PathLength);
+        return new PathResult.Success(new TimeDuration(StopTimeDuration.Value));
     }
 }
