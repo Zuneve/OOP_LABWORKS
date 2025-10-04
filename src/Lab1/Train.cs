@@ -1,8 +1,8 @@
 using Itmo.ObjectOrientedProgramming.Lab1.Attributes;
 
-namespace Itmo.ObjectOrientedProgramming.Lab1.Train;
+namespace Itmo.ObjectOrientedProgramming.Lab1;
 
-public class TrainInfo
+public class Train
 {
     public Accuracy PathAccuracy { get; }
 
@@ -14,7 +14,7 @@ public class TrainInfo
 
     private MaxAllowedForce TrainMaxAllowedForce { get; }
 
-    public TrainInfo(
+    public Train(
         Accuracy accuracy,
         Mass mass,
         MaxAllowedForce maxAllowedForce)

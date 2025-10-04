@@ -1,7 +1,6 @@
 using Itmo.ObjectOrientedProgramming.Lab1.Attributes;
 using Itmo.ObjectOrientedProgramming.Lab1.Path;
 using Itmo.ObjectOrientedProgramming.Lab1.ResultInfo;
-using Itmo.ObjectOrientedProgramming.Lab1.Train;
 using Xunit;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Tests;
@@ -58,7 +57,7 @@ public class Lab1Tests
         {
             new ForceMagneticPath(new Length(1000), new Force(2000)),
             new MagneticPath(new Length(10)),
-            new Station(new Length(100), new Time(10), new MaxAllowedSpeed(1000000)),
+            new Station(new Length(100), new TimeDuration(10), new MaxAllowedSpeed(1000000)),
             new MagneticPath(new Length(10)),
         };
 
@@ -78,7 +77,7 @@ public class Lab1Tests
         var pathList = new List<PathBase>
         {
             new ForceMagneticPath(new Length(100), new Force(2000)),
-            new Station(new Length(100), new Time(10), new MaxAllowedSpeed(100)),
+            new Station(new Length(100), new TimeDuration(10), new MaxAllowedSpeed(100)),
             new MagneticPath(new Length(1)),
         };
 
@@ -99,7 +98,7 @@ public class Lab1Tests
         {
             new ForceMagneticPath(new Length(100), new Force(2000)),
             new MagneticPath(new Length(10)),
-            new Station(new Length(1000), new Time(100), new MaxAllowedSpeed(1000)),
+            new Station(new Length(1000), new TimeDuration(100), new MaxAllowedSpeed(1000)),
             new MagneticPath(new Length(10)),
         };
 
@@ -121,7 +120,7 @@ public class Lab1Tests
             new ForceMagneticPath(new Length(10), new Force(2000)),
             new MagneticPath(new Length(10)),
             new ForceMagneticPath(new Length(10), new Force(-895)),
-            new Station(new Length(100), new Time(1703), new MaxAllowedSpeed(340)),
+            new Station(new Length(100), new TimeDuration(1703), new MaxAllowedSpeed(340)),
             new MagneticPath(new Length(10)),
             new ForceMagneticPath(new Length(10), new Force(2000)),
             new MagneticPath(new Length(10)),
@@ -177,7 +176,7 @@ public class Lab1Tests
     // function to reduce the number of lines in tests
     private TrainSimulator CreateSimulator(IReadOnlyList<PathBase> pathList, double maxSpeed)
     {
-        var train = new TrainInfo(_accuracy, _mass, _maxForce);
+        var train = new Train(_accuracy, _mass, _maxForce);
         return new TrainSimulator(train, pathList, new MaxAllowedSpeed(maxSpeed));
     }
 }

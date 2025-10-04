@@ -1,10 +1,10 @@
 namespace Itmo.ObjectOrientedProgramming.Lab1.Attributes;
 
-public record Time
+public record TimeDuration
 {
     public double Value { get; private set; }
 
-    public Time(double time)
+    public TimeDuration(double time)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(time);
         Value = time;

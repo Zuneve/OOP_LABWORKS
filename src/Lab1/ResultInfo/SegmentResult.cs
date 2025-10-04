@@ -6,7 +6,7 @@ public abstract record SegmentResult
 {
     private SegmentResult() { }
 
-    public sealed record Success(Time SegmentTime, Length SegmentLength) : SegmentResult;
+    public sealed record Success(TimeDuration SegmentTimeDuration, Length SegmentLength) : SegmentResult;
 
     public sealed record Failed : SegmentResult;
 }
