@@ -119,15 +119,15 @@ public class Lab1Tests
         {
             new ForceMagneticPath(new Length(10), new Force(2000)),
             new MagneticPath(new Length(10)),
-            new ForceMagneticPath(new Length(10), new Force(-895)),
-            new Station(new TimeDuration(1703), new MaxAllowedSpeed(340)),
+            new ForceMagneticPath(new Length(10), new Force(-1200)),
+            new Station(new TimeDuration(1703), new MaxAllowedSpeed(390)),
             new MagneticPath(new Length(10)),
             new ForceMagneticPath(new Length(10), new Force(2000)),
             new MagneticPath(new Length(10)),
-            new ForceMagneticPath(new Length(10), new Force(-1000)),
+            new ForceMagneticPath(new Length(10), new Force(-1200)),
         };
 
-        Train simulator = CreateSimulator(pathList, 600);
+        Train simulator = CreateSimulator(pathList, 601);
 
         // act
         SimulationResult result = simulator.Simulate();

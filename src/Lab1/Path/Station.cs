@@ -5,23 +5,23 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.Path;
 
 public class Station : IPath
 {
-    private TimeDuration StopTimeDuration { get; }
+    private readonly TimeDuration _stopTimeDuration;
 
-    private MaxAllowedSpeed StationMaxAllowedSpeed { get; }
+    private readonly MaxAllowedSpeed _stationMaxAllowedSpeed;
 
     public Station(TimeDuration stopTimeDuration, MaxAllowedSpeed maxAllowedSpeed)
     {
-        StopTimeDuration = stopTimeDuration;
-        StationMaxAllowedSpeed = maxAllowedSpeed;
+        _stopTimeDuration = stopTimeDuration;
+        _stationMaxAllowedSpeed = maxAllowedSpeed;
     }
 
     public PathResult TryPassPath(Train trainInfo)
     {
-        if (trainInfo.TrainSpeed.Value > StationMaxAllowedSpeed.Value)
+        if (trainInfo.TrainSpeed.Value > _stationMaxAllowedSpeed.Value)
         {
             return new PathResult.Failed();
         }
 
-        return new PathResult.Success(new TimeDuration(StopTimeDuration.Value));
+        return new PathResult.Success(new TimeDuration(_stopTimeDuration.Value));
     }
 }

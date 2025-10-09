@@ -2,7 +2,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.Attributes;
 
 public record Acceleration
 {
-    public double Value { get; private set; }
+    public double Value { get; }
 
     public Acceleration(double acceleration)
     {

@@ -36,11 +36,6 @@ public class Train
         _pathList = pathList;
     }
 
-    public void UpdateTrainSpeed()
-    {
-        TrainSpeed = TrainSpeed.Create(_trainAcceleration, _pathAccuracy);
-    }
-
     public bool ApplyForceForTrain(Force force)
     {
         if (force.Value > _trainMaxAllowedForce.Value)
@@ -53,13 +48,26 @@ public class Train
         return true;
     }
 
-    public SegmentResult CalculateSegmentResult()
+    public PathResult CalculatePathTime(Length pathLength)
     {
-        var length = new Length(TrainSpeed.Value * _pathAccuracy.Value);
+        var curLength = new Length(0);
+        var totalTime = new TimeDuration(0);
 
-        return TrainSpeed.Value <= 0
-            ? new SegmentResult.Failed()
-            : new SegmentResult.Success(new TimeDuration(length.Value / TrainSpeed.Value), length);
+        while (curLength.IsLessThan(pathLength))
+        {
+            UpdateTrainSpeed();
+            SegmentResult result = CalculateSegmentResult();
+
+            if (TrainSpeed.Value <= 0 || result is not SegmentResult.Success s)
+            {
+                return new PathResult.Failed();
+            }
+
+            curLength = new Length(s.SegmentLength.Value + curLength.Value);
+            totalTime = new TimeDuration(s.SegmentTimeDuration.Value + totalTime.Value);
+        }
+
+        return new PathResult.Success(totalTime);
     }
 
     public SimulationResult Simulate()
@@ -80,5 +88,19 @@ public class Train
         return TrainSpeed.Value <= _finalAllowedSpeed.Value
             ? new SimulationResult.Success(totalTime)
             : new SimulationResult.Failed();
+    }
+
+    private SegmentResult CalculateSegmentResult()
+    {
+        var length = new Length(TrainSpeed.Value * _pathAccuracy.Value);
+
+        return TrainSpeed.Value <= 0
+            ? new SegmentResult.Failed()
+            : new SegmentResult.Success(new TimeDuration(length.Value / TrainSpeed.Value), length);
+    }
+
+    private void UpdateTrainSpeed()
+    {
+        TrainSpeed = TrainSpeed.Create(_trainAcceleration, _pathAccuracy);
     }
 }

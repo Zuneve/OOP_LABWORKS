@@ -8,4 +8,9 @@ public record Length
     {
         Value = length;
     }
+
+    public bool IsLessThan(Length other)
+    {
+        return Value < other.Value;
+    }
 }

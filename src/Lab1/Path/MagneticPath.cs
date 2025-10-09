@@ -1,14 +1,19 @@
 using Itmo.ObjectOrientedProgramming.Lab1.Attributes;
+using Itmo.ObjectOrientedProgramming.Lab1.ResultInfo;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Path;
 
-public class MagneticPath : BaseMagneticPath
+public class MagneticPath : IPath
 {
-    public MagneticPath(Length pathLength) : base(pathLength) { }
+    private readonly Length _pathLength;
 
-    protected override bool ApplyEffect(Train train)
+    public MagneticPath(Length pathLength)
     {
-        train.UpdateTrainSpeed();
-        return true;
+        _pathLength = pathLength;
+    }
+
+    public PathResult TryPassPath(Train trainInfo)
+    {
+        return trainInfo.CalculatePathTime(_pathLength);
     }
 }

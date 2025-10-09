@@ -1,18 +1,27 @@
 using Itmo.ObjectOrientedProgramming.Lab1.Attributes;
+using Itmo.ObjectOrientedProgramming.Lab1.ResultInfo;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Path;
 
-public class ForceMagneticPath : BaseMagneticPath
+public class ForceMagneticPath : IPath
 {
+    private readonly Length _pathLength;
+
     private readonly Force _pathForce;
 
-    public ForceMagneticPath(Length pathLength, Force pathForce) : base(pathLength)
+    public ForceMagneticPath(Length pathLength, Force pathForce)
     {
+        _pathLength = pathLength;
         _pathForce = pathForce;
     }
 
-    protected override bool ApplyEffect(Train train)
+    public PathResult TryPassPath(Train trainInfo)
     {
-        return train.ApplyForceForTrain(_pathForce);
+        if (!trainInfo.ApplyForceForTrain(_pathForce))
+        {
+            return new PathResult.Failed();
+        }
+
+        return trainInfo.CalculatePathTime(_pathLength);
     }
 }
