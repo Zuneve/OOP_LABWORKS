@@ -12,8 +12,8 @@ public class MagneticPath : IPath
         _pathLength = pathLength;
     }
 
-    public PathResult TryPassPath(Train trainInfo)
+    public PathResult TryPassPath(Train train)
     {
-        return trainInfo.CalculatePathTime(_pathLength);
+        return train.CalculatePathTime(_pathLength);
     }
 }

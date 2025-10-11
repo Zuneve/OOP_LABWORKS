@@ -4,5 +4,5 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.Path;
 
 public interface IPath
 {
-    PathResult TryPassPath(Train trainInfo);
+    PathResult TryPassPath(Train train);
 }

@@ -1,5 +1,4 @@
 using Itmo.ObjectOrientedProgramming.Lab1.Attributes;
-using Itmo.ObjectOrientedProgramming.Lab1.Path;
 using Itmo.ObjectOrientedProgramming.Lab1.ResultInfo;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1;
@@ -14,26 +13,18 @@ public class Train
 
     private readonly MaxAllowedForce _trainMaxAllowedForce;
 
-    private readonly MaxAllowedSpeed _finalAllowedSpeed;
-
-    private readonly IReadOnlyList<IPath> _pathList;
-
     private Acceleration _trainAcceleration;
 
     public Train(
         Accuracy accuracy,
         Mass mass,
-        MaxAllowedForce maxAllowedForce,
-        MaxAllowedSpeed finalAllowedSpeed,
-        IReadOnlyList<IPath> pathList)
+        MaxAllowedForce maxAllowedForce)
     {
         _trainAcceleration = new Acceleration(0);
         _pathAccuracy = accuracy;
         _trainMass = mass;
         _trainMaxAllowedForce = maxAllowedForce;
         TrainSpeed = new Speed(0);
-        _finalAllowedSpeed = finalAllowedSpeed;
-        _pathList = pathList;
     }
 
     public bool ApplyForceForTrain(Force force)
@@ -68,26 +59,6 @@ public class Train
         }
 
         return new PathResult.Success(totalTime);
-    }
-
-    public SimulationResult Simulate()
-    {
-        var totalTime = new TimeDuration(0);
-
-        foreach (IPath path in _pathList)
-        {
-            PathResult result = path.TryPassPath(this);
-            if (result is not PathResult.Success s)
-            {
-                return new SimulationResult.Failed();
-            }
-
-            totalTime = new TimeDuration(s.PathTimeDurationResult.Value + totalTime.Value);
-        }
-
-        return TrainSpeed.Value <= _finalAllowedSpeed.Value
-            ? new SimulationResult.Success(totalTime)
-            : new SimulationResult.Failed();
     }
 
     private SegmentResult CalculateSegmentResult()

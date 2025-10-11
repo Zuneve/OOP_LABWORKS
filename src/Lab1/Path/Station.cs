@@ -15,9 +15,9 @@ public class Station : IPath
         _stationMaxAllowedSpeed = maxAllowedSpeed;
     }
 
-    public PathResult TryPassPath(Train trainInfo)
+    public PathResult TryPassPath(Train train)
     {
-        if (trainInfo.TrainSpeed.Value > _stationMaxAllowedSpeed.Value)
+        if (train.TrainSpeed.Value > _stationMaxAllowedSpeed.Value)
         {
             return new PathResult.Failed();
         }

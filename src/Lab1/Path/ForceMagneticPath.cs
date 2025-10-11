@@ -15,13 +15,20 @@ public class ForceMagneticPath : IPath
         _pathForce = pathForce;
     }
 
-    public PathResult TryPassPath(Train trainInfo)
+    public PathResult TryPassPath(Train train)
     {
-        if (!trainInfo.ApplyForceForTrain(_pathForce))
+        if (!train.ApplyForceForTrain(_pathForce))
         {
             return new PathResult.Failed();
         }
 
-        return trainInfo.CalculatePathTime(_pathLength);
+        PathResult result = train.CalculatePathTime(_pathLength);
+
+        if (!train.ApplyForceForTrain(new Force(0)))
+        {
+            return new PathResult.Failed();
+        }
+
+        return result;
     }
 }

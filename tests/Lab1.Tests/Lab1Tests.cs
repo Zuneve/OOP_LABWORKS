@@ -21,10 +21,8 @@ public class Lab1Tests
             new MagneticPath(new Length(10)),
         };
 
-        Train simulator = CreateSimulator(pathList, 1000000000);
-
         // act
-        SimulationResult result = simulator.Simulate();
+        SimulationResult result = SimulatePath(pathList, 1000000000);
 
         // assert
         Assert.IsType<SimulationResult.Success>(result);
@@ -40,10 +38,8 @@ public class Lab1Tests
             new MagneticPath(new Length(10)),
         };
 
-        Train simulator = CreateSimulator(pathList, 100);
-
         // act
-        SimulationResult result = simulator.Simulate();
+        SimulationResult result = SimulatePath(pathList, 100);
 
         // assert
         Assert.IsType<SimulationResult.Failed>(result);
@@ -61,10 +57,8 @@ public class Lab1Tests
             new MagneticPath(new Length(10)),
         };
 
-        Train simulator = CreateSimulator(pathList, 10000000000);
-
         // act
-        SimulationResult result = simulator.Simulate();
+        SimulationResult result = SimulatePath(pathList, 10000000000);
 
         // assert
         Assert.IsType<SimulationResult.Success>(result);
@@ -81,10 +75,8 @@ public class Lab1Tests
             new MagneticPath(new Length(1)),
         };
 
-        Train simulator = CreateSimulator(pathList, 10000000000);
-
         // act
-        SimulationResult result = simulator.Simulate();
+        SimulationResult result = SimulatePath(pathList, 10000000000);
 
         // assert
         Assert.IsType<SimulationResult.Failed>(result);
@@ -102,10 +94,8 @@ public class Lab1Tests
             new MagneticPath(new Length(10)),
         };
 
-        Train simulator = CreateSimulator(pathList, 100);
-
         // act
-        SimulationResult result = simulator.Simulate();
+        SimulationResult result = SimulatePath(pathList, 100);
 
         // assert
         Assert.IsType<SimulationResult.Failed>(result);
@@ -127,10 +117,8 @@ public class Lab1Tests
             new ForceMagneticPath(new Length(10), new Force(-1200)),
         };
 
-        Train simulator = CreateSimulator(pathList, 601);
-
         // act
-        SimulationResult result = simulator.Simulate();
+        SimulationResult result = SimulatePath(pathList, 601);
 
         // assert
         Assert.IsType<SimulationResult.Success>(result);
@@ -145,10 +133,8 @@ public class Lab1Tests
             new MagneticPath(new Length(100000)),
         };
 
-        Train simulator = CreateSimulator(pathList, 10000000000);
-
         // act
-        SimulationResult result = simulator.Simulate();
+        SimulationResult result = SimulatePath(pathList, 10000000000);
 
         // assert
         Assert.IsType<SimulationResult.Failed>(result);
@@ -164,19 +150,19 @@ public class Lab1Tests
             new ForceMagneticPath(new Length(100000), new Force(-2000)),
         };
 
-        Train simulator = CreateSimulator(pathList, 10000000000);
-
         // act
-        SimulationResult result = simulator.Simulate();
+        SimulationResult result = SimulatePath(pathList, 10000000000);
 
         // assert
         Assert.IsType<SimulationResult.Failed>(result);
     }
 
     // function to reduce the number of lines in tests
-    private Train CreateSimulator(IReadOnlyList<IPath> pathList, double maxSpeed)
+    private SimulationResult SimulatePath(IReadOnlyList<IPath> pathList, double maxSpeed)
     {
-        var train = new Train(_accuracy, _mass, _maxForce, new MaxAllowedSpeed(maxSpeed), pathList);
-        return train;
+        var train = new Train(_accuracy, _mass, _maxForce);
+        var route = new Route(new MaxAllowedSpeed(maxSpeed), pathList);
+
+        return route.Simulate(train);
     }
 }
