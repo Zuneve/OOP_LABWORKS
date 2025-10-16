@@ -1,37 +1,32 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Attributes;
-
 namespace Itmo.ObjectOrientedProgramming.Lab2;
 
 public class User
 {
-    public UserId Id { get; }
-
-    private readonly Dictionary<MessageId, Message> _messages;
+    private readonly List<Message> _messages;
 
     public User()
     {
-        Id = new UserId();
-        _messages = new Dictionary<MessageId, Message>();
+        _messages = [];
     }
 
     public void Receive(Message message)
     {
-        _messages.TryAdd(message.Id, message);
+        _messages.Add(message);
     }
 
-    public void MarkAsRead(MessageId messageId)
+    public void MarkAsRead(Message message)
     {
-        if (_messages[messageId].MessageStatus.IsRead)
+        if (message.MessageStatus.IsRead)
         {
             throw new InvalidOperationException("Message is already marked as read.");
         }
 
-        _messages[messageId].MessageStatus.MarkRead();
+        message.MessageStatus.MarkRead();
     }
 
-    public bool HasMessage(MessageId messageId)
+    public bool HasMessage(Message message)
     {
-        return _messages.ContainsKey(messageId);
+        return _messages.Contains(message);
     }
 
     public int MessageCount => _messages.Count;

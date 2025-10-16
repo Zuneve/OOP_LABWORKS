@@ -12,14 +12,11 @@ public class Message
 
     public MessageReadStatus MessageStatus { get; }
 
-    public MessageId Id { get; }
-
     public Message(MessageTittle messageTittle, MessageBody messageBody, MessagePriorityScore messagePriorityScore)
     {
         Tittle = messageTittle;
         Body = messageBody;
         PriorityScore = messagePriorityScore;
         MessageStatus = new MessageReadStatus(false);
-        Id = new MessageId();
     }
 }

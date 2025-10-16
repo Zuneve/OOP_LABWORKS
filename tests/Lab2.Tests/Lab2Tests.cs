@@ -42,7 +42,7 @@ public class Lab2Tests
         // act
         user.Receive(message);
 
-        user.MarkAsRead(message.Id);
+        user.MarkAsRead(message);
 
         // assert
         Assert.Equal(new MessageReadStatus(true), message.MessageStatus);
@@ -62,10 +62,10 @@ public class Lab2Tests
         // act
         user.Receive(message);
 
-        user.MarkAsRead(message.Id);
+        user.MarkAsRead(message);
 
         // assert
-        Assert.Throws<InvalidOperationException>(() => user.MarkAsRead(message.Id));
+        Assert.Throws<InvalidOperationException>(() => user.MarkAsRead(message));
     }
 
     [Fact]
@@ -151,6 +151,6 @@ public class Lab2Tests
 
         // assert
         Assert.Equal(1, user.MessageCount);
-        Assert.True(user.HasMessage(message.Id));
+        Assert.True(user.HasMessage(message));
     }
 }

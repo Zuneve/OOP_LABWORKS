@@ -19,7 +19,7 @@ public class GroupRecipient : IRecipient
 
     public void AddRecipient(IRecipient recipient)
     {
-        _recipients.Append(recipient);
+        _recipients.Add(recipient);
     }
 
     public void DeleteRecipient(IRecipient recipient)

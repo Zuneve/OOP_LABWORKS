@@ -2,15 +2,15 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.Archivers;
 
 public class InMemoryArchiver : IArchiver
 {
-    private readonly IReadOnlyList<Message> _messages;
+    private readonly List<Message> _messages;
 
-    public InMemoryArchiver(IReadOnlyList<Message> messages)
+    public InMemoryArchiver()
     {
-        _messages = messages;
+        _messages = [];
     }
 
     public void Save(Message message)
     {
-        _messages.Append(message);
+        _messages.Add(message);
     }
 }
