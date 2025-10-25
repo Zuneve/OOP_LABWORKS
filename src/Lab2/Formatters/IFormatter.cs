@@ -2,9 +2,9 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.Formatters;
 
 public interface IFormatter
 {
-    void FormatTittle(Message message);
+    string FormatTittle(string tittle);
 
-    void FormatBody(Message message);
+    string FormatBody(string body);
 
-    void Format(Message message);
+    string Format(string tittle, string body);
 }

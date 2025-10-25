@@ -1,9 +1,9 @@
 namespace Itmo.ObjectOrientedProgramming.Lab2.Loggers;
 
-public class ConsoleLogger
+public class ConsoleLogger : ILogger
 {
-    public void Log(Message message)
+    public void Log(string message)
     {
-        Console.WriteLine($"LOG {DateTime.Now:HH:mm:ss} : Title: {message.Tittle}, Body: {message.Body}");
+        Console.WriteLine($"LOG {DateTime.Now:HH:mm:ss} : Message: {message}");
     }
 }

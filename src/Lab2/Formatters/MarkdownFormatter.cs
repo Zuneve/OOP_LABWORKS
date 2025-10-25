@@ -1,32 +1,19 @@
 namespace Itmo.ObjectOrientedProgramming.Lab2.Formatters;
 
-public abstract class MarkdownFormatter : IFormatter
+public class MarkdownFormatter : IFormatter
 {
-    public void FormatTittle(Message message)
+    public string FormatTittle(string tittle)
     {
-        Write(FormatMarkdownTittle(message));
+        return $"# {tittle}";
     }
 
-    public void FormatBody(Message message)
+    public string FormatBody(string body)
     {
-        Write(FormatMarkdownBody(message));
+        return $"{body}";
     }
 
-    public void Format(Message message)
+    public string Format(string tittle, string body)
     {
-        Write(FormatMarkdownTittle(message));
-        Write(FormatMarkdownBody(message));
-    }
-
-    protected abstract void Write(string text);
-
-    protected virtual string FormatMarkdownTittle(Message message)
-    {
-        return $"# {message.Tittle}";
-    }
-
-    protected virtual string FormatMarkdownBody(Message message)
-    {
-        return $"# {message.Body}";
+        return $"Tittle: {FormatTittle(tittle)}\nBody: {FormatBody(body)}";
     }
 }

@@ -25,7 +25,7 @@ public class Lab2Tests
         user.Receive(message);
 
         // assert
-        Assert.Equal(new MessageReadStatus(false), message.MessageStatus);
+        Assert.False(message.MessageStatus.IsRead);
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class Lab2Tests
         user.MarkAsRead(message);
 
         // assert
-        Assert.Equal(new MessageReadStatus(true), message.MessageStatus);
+        Assert.True(message.MessageStatus.IsRead);
     }
 
     [Fact]
@@ -73,7 +73,7 @@ public class Lab2Tests
     {
         // arrange
         IRecipient userRecipient = Substitute.For<IRecipient>();
-        var filteredRecipient = new FilteringRecipientDecorator(
+        var filteredRecipient = new FilteringRecipient(
             userRecipient,
             new MinAllowedImportance(3));
 
@@ -95,7 +95,7 @@ public class Lab2Tests
         // arrange
         IRecipient userRecipient = Substitute.For<IRecipient>();
         ILogger logger = Substitute.For<ILogger>();
-        var loggingRecipient = new LoggingRecipientDecorator(userRecipient, logger);
+        var loggingRecipient = new LoggingRecipient(userRecipient, logger);
 
         var message = new Message(
             new MessageTittle("Hello"),
@@ -106,7 +106,7 @@ public class Lab2Tests
         loggingRecipient.Receive(message);
 
         // assert
-        logger.Received(1).Log(Arg.Any<Message>());
+        logger.Received(1).Log(Arg.Any<string>());
     }
 
     [Fact]
@@ -125,7 +125,7 @@ public class Lab2Tests
         formattingArchiver.Save(message);
 
         // assert
-        formatter.Received(1).Format(message);
+        formatter.Received(1).Format(message.Tittle.Value, message.Body.Value);
     }
 
     [Fact]
@@ -134,7 +134,7 @@ public class Lab2Tests
         // arrange
         var user = new User();
 
-        var recipientWithFilter = new FilteringRecipientDecorator(
+        var recipientWithFilter = new FilteringRecipient(
             new UserRecipient(user),
             new MinAllowedImportance(3));
 

@@ -9,8 +9,8 @@ public class InMemoryLogger : ILogger
         _messages = [];
     }
 
-    public void Log(Message message)
+    public void Log(string message)
     {
-        _messages.Add($"LOG {DateTime.Now:HH:mm:ss} : Title: {message.Tittle}, Body: {message.Body}");
+        _messages.Add($"LOG {DateTime.Now:HH:mm:ss} : Message: {message}");
     }
 }
