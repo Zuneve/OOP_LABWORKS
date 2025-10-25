@@ -2,18 +2,20 @@ namespace Itmo.ObjectOrientedProgramming.Lab2.Formatters;
 
 public class MarkdownFormatter : IFormatter
 {
-    public string FormatTittle(string tittle)
+    private readonly IFormatter _inner;
+
+    public MarkdownFormatter(IFormatter inner)
     {
-        return $"# {tittle}";
+        _inner = inner;
     }
 
-    public string FormatBody(string body)
+    public void WriteTittle(string tittle)
     {
-        return $"{body}";
+        _inner.WriteTittle($"# {tittle}");
     }
 
-    public string Format(string tittle, string body)
+    public void WriteBody(string body)
     {
-        return $"Tittle: {FormatTittle(tittle)}\nBody: {FormatBody(body)}";
+        _inner.WriteTittle(body);
     }
 }

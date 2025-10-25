@@ -14,14 +14,15 @@ public class User
         _messages.Add(message);
     }
 
-    public void MarkAsRead(Message message)
+    public bool TryMarkAsRead(Message message)
     {
         if (message.MessageStatus.IsRead)
         {
-            throw new InvalidOperationException("Message is already marked as read.");
+            return false;
         }
 
         message.MessageStatus.MarkRead();
+        return true;
     }
 
     public bool HasMessage(Message message)

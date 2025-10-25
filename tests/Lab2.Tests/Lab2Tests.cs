@@ -42,10 +42,10 @@ public class Lab2Tests
         // act
         user.Receive(message);
 
-        user.MarkAsRead(message);
+        bool success = user.TryMarkAsRead(message);
 
         // assert
-        Assert.True(message.MessageStatus.IsRead);
+        Assert.True(success);
     }
 
     [Fact]
@@ -62,10 +62,11 @@ public class Lab2Tests
         // act
         user.Receive(message);
 
-        user.MarkAsRead(message);
+        user.TryMarkAsRead(message);
+        bool success = user.TryMarkAsRead(message);
 
         // assert
-        Assert.Throws<InvalidOperationException>(() => user.MarkAsRead(message));
+        Assert.False(success);
     }
 
     [Fact]
@@ -125,7 +126,7 @@ public class Lab2Tests
         formattingArchiver.Save(message);
 
         // assert
-        formatter.Received(1).Format(message.Tittle.Value, message.Body.Value);
+        formatter.Received(1).WriteTittle(message.Tittle.Value);
     }
 
     [Fact]
