@@ -5,8 +5,6 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Spells;
 
 public class ProtectionAmulet : ISpell
 {
-    public ProtectionAmulet() { }
-
     public ICreature ApplySpell(ICreature creature)
     {
         return new MagicShieldModifier(creature);

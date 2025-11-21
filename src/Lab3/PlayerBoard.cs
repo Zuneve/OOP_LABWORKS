@@ -22,9 +22,9 @@ public class PlayerBoard
         }
     }
 
-    public void ApplySpell(ISpell spell, ICreature creature)
+    public ICreature ApplySpell(ISpell spell, ICreature creature)
     {
-        spell.ApplySpell(creature);
+        return spell.ApplySpell(creature);
     }
 
     public ReadOnlyCollection<ICreature> GetCreatures()

@@ -4,7 +4,6 @@ namespace Itmo.ObjectOrientedProgramming.Lab3;
 
 public class Fight
 {
-    // TODO : Change ICreature to their directors
     private readonly PlayerBoard _firstPlayerBoard;
 
     private readonly PlayerBoard _secondPlayerBoard;

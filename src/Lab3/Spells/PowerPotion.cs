@@ -7,15 +7,8 @@ public class PowerPotion : ISpell
 {
     private const int AddedPower = 5;
 
-    public PowerPotion() { }
-
     public ICreature ApplySpell(ICreature creature)
     {
-        if (creature.CreatureAttack == null)
-        {
-            throw new InvalidOperationException();
-        }
-
         creature.ChangeAttack(new Attack(creature.CreatureAttack.Value + AddedPower));
         return creature;
     }
