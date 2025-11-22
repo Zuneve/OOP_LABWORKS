@@ -1,4 +1,6 @@
+using Itmo.ObjectOrientedProgramming.Lab3.Board;
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures;
+using System.Collections.ObjectModel;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3;
 
@@ -24,23 +26,18 @@ public class Fight
 
         while (!isGameFinished)
         {
-            var validFightersFirstPlayer = new List<ICreature>();
-            var validFightersSecondPlayer = new List<ICreature>();
+            Collection<ICreature> validFightersFirstPlayer;
+            Collection<ICreature> validFightersSecondPlayer;
 
-            foreach (ICreature creature in _firstPlayerBoard.GetCreatures())
+            if (isFirstPlayerTurn)
             {
-                if (IsFighterValid(creature, isFirstPlayerTurn))
-                {
-                    validFightersFirstPlayer.Add(creature);
-                }
+                validFightersFirstPlayer = _firstPlayerBoard.GetAttackerCreatures();
+                validFightersSecondPlayer = _secondPlayerBoard.GetDefendingCreatures();
             }
-
-            foreach (ICreature creature in _secondPlayerBoard.GetCreatures())
+            else
             {
-                if (IsFighterValid(creature, !isFirstPlayerTurn))
-                {
-                    validFightersSecondPlayer.Add(creature);
-                }
+                validFightersFirstPlayer = _firstPlayerBoard.GetDefendingCreatures();
+                validFightersSecondPlayer = _secondPlayerBoard.GetAttackerCreatures();
             }
 
             isGameFinished = validFightersFirstPlayer.Count == 0 || validFightersSecondPlayer.Count == 0;
@@ -66,12 +63,5 @@ public class Fight
         }
 
         return new FightResult.Failed();
-    }
-
-    private bool IsFighterValid(ICreature creature, bool isAttacker)
-    {
-        bool isDamageValid = !isAttacker || creature.CreatureAttack.Value > 0;
-        bool isHealthValid = creature.CreatureHealth.Value > 0;
-        return isDamageValid && isHealthValid;
     }
 }

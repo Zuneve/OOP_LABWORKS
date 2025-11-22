@@ -1,4 +1,5 @@
 using Itmo.ObjectOrientedProgramming.Lab3.Attributes;
+using Itmo.ObjectOrientedProgramming.Lab3.Board;
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures.Directors;
@@ -40,7 +41,6 @@ public class Lab3Tests
     public void Run_ShouldReturnSuccess_When_AddCreature_CloneCreature()
     {
         // arrange
-        var board = new PlayerBoard();
         var builder = new CombatAnalystBuilder();
         var director = new CombatAnalystDirector();
 
@@ -50,7 +50,7 @@ public class Lab3Tests
             .Build();
 
         // act
-        board.AddCreature(creature);
+        PlayerBoard board = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature).Build();
 
         // assert
         Assert.NotSame(creature, board.GetCreatures()[0]);
@@ -60,9 +60,6 @@ public class Lab3Tests
     public void Run_ShouldReturnSuccess_WhenFight_NotChangeOriginalBoardCreatures()
     {
         // arrange
-        var board1 = new PlayerBoard();
-        var board2 = new PlayerBoard();
-
         var builder1 = new MimicChestBuilder();
         var director1 = new MimicChestDirector();
         ICreature creature1 = director1.Direct(builder1).Build();
@@ -76,8 +73,8 @@ public class Lab3Tests
         int originalAttack2 = creature2.CreatureAttack.Value;
         int originalHealth2 = creature2.CreatureHealth.Value;
 
-        board1.AddCreature(creature1);
-        board2.AddCreature(creature2);
+        PlayerBoard board1 = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature1).Build();
+        PlayerBoard board2 = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature2).Build();
 
         // act
         var fight = new Fight(board1, board2);
@@ -95,9 +92,6 @@ public class Lab3Tests
     public void Run_ShouldReturnSuccess_When_Changes_On_FirstPlayerBoard_NotChangeCreatures_On_SecondPlayerBoard()
     {
         // arrange
-        var board1 = new PlayerBoard();
-        var board2 = new PlayerBoard();
-
         var builder1 = new AmuletMasterBuilder();
         var director1 = new AmuletMasterDirector();
         ICreature creature1 = director1.Direct(builder1).Build();
@@ -106,8 +100,8 @@ public class Lab3Tests
         var director2 = new AmuletMasterDirector();
         ICreature creature2 = director2.Direct(builder2).Build();
 
-        board1.AddCreature(creature1);
-        board2.AddCreature(creature2);
+        PlayerBoard board1 = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature1).Build();
+        PlayerBoard board2 = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature2).Build();
 
         // act
         board1.GetCreatures()[0].ChangeAttack(new Attack(10));
@@ -173,9 +167,6 @@ public class Lab3Tests
     public void Run_ShouldReturnSuccess_When_AmuletMaster_With_Spells_Beats_CombatAnalyst()
     {
         // arrange
-        var board1 = new PlayerBoard();
-        var board2 = new PlayerBoard();
-
         var builder1 = new AmuletMasterBuilder();
         var director1 = new AmuletMasterDirector();
         ICreature creature1 = director1.Direct(builder1).Build();
@@ -184,8 +175,8 @@ public class Lab3Tests
         var director2 = new CombatAnalystDirector();
         ICreature creature2 = director2.Direct(builder2).Build();
 
-        board1.AddCreature(creature1);
-        board2.AddCreature(creature2);
+        PlayerBoard board1 = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature1).Build();
+        PlayerBoard board2 = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature2).Build();
 
         board1.ApplySpell(new PowerPotion(), creature1);
         board1.ApplySpell(new PowerPotion(), creature1);
@@ -204,14 +195,12 @@ public class Lab3Tests
     public void Run_ShouldReturnSuccess_When_EndurancePotion_IncreaseHealth()
     {
         // arrange
-        var board1 = new PlayerBoard();
-
         var builder1 = new AmuletMasterBuilder();
         var director1 = new AmuletMasterDirector();
         ICreature creature1 = director1.Direct(builder1).Build();
 
         // act
-        board1.AddCreature(creature1);
+        PlayerBoard board1 = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature1).Build();
         board1.ApplySpell(new EndurancePotion(), creature1);
 
         // assert
@@ -222,14 +211,12 @@ public class Lab3Tests
     public void Run_ShouldReturnSuccess_When_PowerPotion_IncreaseAttack()
     {
         // arrange
-        var board1 = new PlayerBoard();
-
         var builder1 = new AmuletMasterBuilder();
         var director1 = new AmuletMasterDirector();
         ICreature creature1 = director1.Direct(builder1).Build();
 
         // act
-        board1.AddCreature(creature1);
+        PlayerBoard board1 = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature1).Build();
         board1.ApplySpell(new PowerPotion(), creature1);
 
         // assert
@@ -240,13 +227,11 @@ public class Lab3Tests
     public void Run_ShouldReturnSuccess_When_ProtectionAmulet_Applies_MagicShield_ToCreature()
     {
         // arrange
-        var board = new PlayerBoard();
-
         var builder = new MimicChestBuilder();
         var director = new MimicChestDirector();
         ICreature creature = director.Direct(builder).Build();
 
-        board.AddCreature(creature);
+        PlayerBoard board = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature).Build();
         creature = board.ApplySpell(new ProtectionAmulet(), creature);
 
         // act
@@ -266,8 +251,6 @@ public class Lab3Tests
     public void Run_ShouldReturnSuccess_When_MagicMirror_Swap_HealthAndAttack()
     {
         // arrange
-        var board = new PlayerBoard();
-
         var builder = new MimicChestBuilder();
         var director = new MimicChestDirector();
         ICreature creature = director.Direct(builder).Build();
@@ -275,7 +258,7 @@ public class Lab3Tests
         int oldAttack = creature.CreatureAttack.Value;
         int oldHealth = creature.CreatureHealth.Value;
 
-        board.AddCreature(creature);
+        PlayerBoard board = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature).Build();
 
         // act
         board.ApplySpell(new MagicMirror(), creature);
@@ -289,8 +272,6 @@ public class Lab3Tests
     public void Run_ShouldReturnSuccess_When_8thCreature_NotAdded_ToBoard()
     {
         // arrange
-        var board = new PlayerBoard();
-
         var creature1 = new MimicChest(new Attack(1), new Health(1));
         var creature2 = new MimicChest(new Attack(1), new Health(1));
         var creature3 = new MimicChest(new Attack(1), new Health(1));
@@ -300,16 +281,17 @@ public class Lab3Tests
         var creature7 = new MimicChest(new Attack(1), new Health(1));
         var creature8 = new MimicChest(new Attack(1), new Health(1));
 
-        board.AddCreature(creature1);
-        board.AddCreature(creature2);
-        board.AddCreature(creature3);
-        board.AddCreature(creature4);
-        board.AddCreature(creature5);
-        board.AddCreature(creature6);
-        board.AddCreature(creature7);
-
         // act
-        board.AddCreature(creature8);
+        PlayerBoard board = new PlayerBoard.PlayerBoardBuilder()
+            .AddCreature(creature1)
+            .AddCreature(creature2)
+            .AddCreature(creature3)
+            .AddCreature(creature4)
+            .AddCreature(creature5)
+            .AddCreature(creature6)
+            .AddCreature(creature7)
+            .AddCreature(creature8)
+            .Build();
 
         // assert
         Assert.Equal(7, board.GetCreatures().Count);
