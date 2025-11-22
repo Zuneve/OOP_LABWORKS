@@ -1,14 +1,13 @@
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 using Itmo.ObjectOrientedProgramming.Lab3.Spells;
-using System.Collections.ObjectModel;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Board;
 
 public class PlayerBoard
 {
-    private readonly Collection<ICreature> _creatures;
+    private readonly IList<ICreature> _creatures;
 
-    private PlayerBoard(Collection<ICreature> creatures)
+    private PlayerBoard(IList<ICreature> creatures)
     {
         _creatures = creatures;
     }
@@ -16,21 +15,22 @@ public class PlayerBoard
     public class PlayerBoardBuilder : IBoardBuilder
     {
         private const int MaxCreaturesCount = 7;
-        private readonly Collection<ICreature> _creatures = [];
+        private readonly IList<ICreature> _creatures = [];
 
         public IBoardBuilder AddCreature(ICreature creature)
         {
-            if (_creatures.Count < MaxCreaturesCount)
+            if (_creatures.Count >= MaxCreaturesCount)
             {
-                _creatures.Add(creature);
+                throw new ArgumentOutOfRangeException(nameof(creature));
             }
 
+            _creatures.Add(creature);
             return this;
         }
 
         public PlayerBoard Build()
         {
-            var creatures = new Collection<ICreature>();
+            var creatures = new List<ICreature>();
 
             foreach (ICreature creature in _creatures)
             {
@@ -46,44 +46,21 @@ public class PlayerBoard
         return spell.ApplySpell(creature);
     }
 
-    public Collection<ICreature> GetCreatures()
+    public IList<ICreature> GetAttackerCreatures()
     {
-        return new Collection<ICreature>(_creatures);
+        return new List<ICreature>(
+            _creatures.Where(creature => IsFighterValid(creature, true)).Select(c => c).ToList());
     }
 
-    public Collection<ICreature> GetAttackerCreatures()
+    public IList<ICreature> GetDefendingCreatures()
     {
-        var validAttackerCreatures = new Collection<ICreature>();
-
-        foreach (ICreature creature in _creatures)
-        {
-            if (IsFighterValid(creature, true))
-            {
-                validAttackerCreatures.Add(creature);
-            }
-        }
-
-        return validAttackerCreatures;
-    }
-
-    public Collection<ICreature> GetDefendingCreatures()
-    {
-        var validDefendingCreatures = new Collection<ICreature>();
-
-        foreach (ICreature creature in _creatures)
-        {
-            if (IsFighterValid(creature, false))
-            {
-                validDefendingCreatures.Add(creature);
-            }
-        }
-
-        return validDefendingCreatures;
+        return new List<ICreature>(
+            _creatures.Where(creature => IsFighterValid(creature, false)).Select(c => c).ToList());
     }
 
     public PlayerBoard Clone()
     {
-        var creatures = new Collection<ICreature>();
+        var creatures = new List<ICreature>();
 
         foreach (ICreature creature in _creatures)
         {

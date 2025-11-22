@@ -13,7 +13,7 @@ public class MimicChestBuilder : BaseCreatureBuilder
 
         ICreature creature = new MimicChest(CreatureAttack, CreatureHealth);
 
-        foreach (IModifierFactory modifierFactory in ModifierFactories)
+        foreach (IModifierApplierFactory modifierFactory in ModifierFactories)
         {
             creature = modifierFactory.ApplyModifier(creature);
         }

@@ -4,7 +4,7 @@ using Itmo.ObjectOrientedProgramming.Lab3.Modifiers.Factories;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Directors;
 
-public class AmuletMasterDirector : ICreatureDirector
+public class AmuletMasterFactory : ICreatureFactory
 {
     private const int DefaultAttack = 5;
 
@@ -15,7 +15,7 @@ public class AmuletMasterDirector : ICreatureDirector
         return builder
             .WithAttack(new Attack(DefaultAttack))
             .WithHealth(new Health(DefaultHealth))
-            .WithModifier(new AttackMasteryModifierFactory())
-            .WithModifier(new MagicShieldModifierFactory());
+            .WithModifier(new AttackMasteryModifierApplierFactory())
+            .WithModifier(new MagicShieldModifierApplierFactory());
     }
 }

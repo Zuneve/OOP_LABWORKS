@@ -26,21 +26,11 @@ public class ImmortalHorror : ICreature
 
     public void AttackCreature(ICreature creature)
     {
-        if (CreatureAttack == null)
-        {
-            throw new InvalidOperationException();
-        }
-
         creature.TakeDamage(CreatureAttack);
     }
 
     public void TakeDamage(Attack attack)
     {
-        if (CreatureHealth == null)
-        {
-            throw new InvalidOperationException();
-        }
-
         CreatureHealth = new Health(CreatureHealth.Value - attack.Value);
 
         if (_wasDead || CreatureHealth.Value > 0)

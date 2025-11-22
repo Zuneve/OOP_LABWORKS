@@ -3,7 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Directors;
 
-public class MimicChestDirector : ICreatureDirector
+public class MimicChestFactory : ICreatureFactory
 {
     private const int DefaultAttack = 1;
 

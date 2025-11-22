@@ -5,9 +5,9 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 
 public abstract class BaseCreatureBuilder : ICreatureBuilder
 {
-    private readonly List<IModifierFactory> _modifierFactories = [];
+    private readonly List<IModifierApplierFactory> _modifierFactories = [];
 
-    protected IEnumerable<IModifierFactory> ModifierFactories => _modifierFactories;
+    protected IEnumerable<IModifierApplierFactory> ModifierFactories => _modifierFactories;
 
     protected Attack? CreatureAttack { get; private set; }
 
@@ -25,9 +25,9 @@ public abstract class BaseCreatureBuilder : ICreatureBuilder
         return this;
     }
 
-    public ICreatureBuilder WithModifier(IModifierFactory modifierFactory)
+    public ICreatureBuilder WithModifier(IModifierApplierFactory modifierApplierFactory)
     {
-        _modifierFactories.Add(modifierFactory);
+        _modifierFactories.Add(modifierApplierFactory);
         return this;
     }
 

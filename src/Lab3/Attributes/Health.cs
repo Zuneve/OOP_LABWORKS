@@ -6,6 +6,6 @@ public record Health
 
     public Health(int health)
     {
-        Value = health;
+        Value = int.Max(health, 0);
     }
 }

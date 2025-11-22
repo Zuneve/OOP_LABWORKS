@@ -1,8 +1,8 @@
 using System.Security.Cryptography;
 
-namespace Itmo.ObjectOrientedProgramming.Lab3;
+namespace Itmo.ObjectOrientedProgramming.Lab3.RandomServices;
 
-public class RandomService
+public class RandomService : IRandomService
 {
     public int GetNext(int leftLimit, int rightLimit)
     {

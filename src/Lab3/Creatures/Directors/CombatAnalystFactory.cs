@@ -3,11 +3,11 @@ using Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Directors;
 
-public class EvilFighterDirector : ICreatureDirector
+public class CombatAnalystFactory : ICreatureFactory
 {
-    private const int DefaultAttack = 1;
+    private const int DefaultAttack = 2;
 
-    private const int DefaultHealth = 6;
+    private const int DefaultHealth = 4;
 
     public ICreatureBuilder Direct(ICreatureBuilder builder)
     {

@@ -9,7 +9,7 @@ public interface ICreatureBuilder
 
     ICreatureBuilder WithHealth(Health health);
 
-    ICreatureBuilder WithModifier(IModifierFactory modifierFactory);
+    ICreatureBuilder WithModifier(IModifierApplierFactory modifierApplierFactory);
 
     ICreature Build();
 }

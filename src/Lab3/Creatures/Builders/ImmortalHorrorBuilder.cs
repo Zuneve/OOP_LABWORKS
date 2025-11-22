@@ -13,7 +13,7 @@ public class ImmortalHorrorBuilder : BaseCreatureBuilder
 
         ICreature creature = new ImmortalHorror(CreatureAttack, CreatureHealth);
 
-        foreach (IModifierFactory modifierFactory in ModifierFactories)
+        foreach (IModifierApplierFactory modifierFactory in ModifierFactories)
         {
             creature = modifierFactory.ApplyModifier(creature);
         }

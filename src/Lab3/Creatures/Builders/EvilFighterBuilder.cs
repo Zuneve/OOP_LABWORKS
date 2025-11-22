@@ -13,7 +13,7 @@ public class EvilFighterBuilder : BaseCreatureBuilder
 
         ICreature creature = new EvilFighter(CreatureAttack, CreatureHealth);
 
-        foreach (IModifierFactory modifierFactory in ModifierFactories)
+        foreach (IModifierApplierFactory modifierFactory in ModifierFactories)
         {
             creature = modifierFactory.ApplyModifier(creature);
         }

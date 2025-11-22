@@ -13,7 +13,7 @@ public class CombatAnalystBuilder : BaseCreatureBuilder
 
         ICreature creature = new CombatAnalyst(CreatureAttack, CreatureHealth);
 
-        foreach (IModifierFactory modifierFactory in ModifierFactories)
+        foreach (IModifierApplierFactory modifierFactory in ModifierFactories)
         {
             creature = modifierFactory.ApplyModifier(creature);
         }

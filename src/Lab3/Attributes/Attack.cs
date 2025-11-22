@@ -6,6 +6,7 @@ public record Attack
 
     public Attack(int attack)
     {
+        ArgumentOutOfRangeException.ThrowIfNegative(attack);
         Value = attack;
     }
 }
