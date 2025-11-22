@@ -1,23 +1,11 @@
-using Itmo.ObjectOrientedProgramming.Lab3.Modifiers.Factories;
+using Itmo.ObjectOrientedProgramming.Lab3.Attributes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 
 public class AmuletMasterBuilder : BaseCreatureBuilder
 {
-    public override ICreature Build()
+    protected override ICreature CreateCreature(Attack attack, Health health)
     {
-        if (CreatureAttack is null || CreatureHealth is null)
-        {
-            throw new ArgumentNullException();
-        }
-
-        ICreature creature = new AmuletMaster(CreatureAttack, CreatureHealth);
-
-        foreach (IModifierApplierFactory modifierFactory in ModifierFactories)
-        {
-            creature = modifierFactory.ApplyModifier(creature);
-        }
-
-        return creature;
+        return new AmuletMaster(attack, health);
     }
 }

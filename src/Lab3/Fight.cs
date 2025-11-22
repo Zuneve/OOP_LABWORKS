@@ -10,19 +10,15 @@ public class Fight
 
     private readonly PlayerBoard _secondPlayerBoard;
 
-    private readonly IRandomService _randomService;
-
     public Fight(PlayerBoard firstPlayerBoard, PlayerBoard secondPlayerBoard, IRandomService randomService)
     {
         _firstPlayerBoard = firstPlayerBoard.Clone();
         _secondPlayerBoard = secondPlayerBoard.Clone();
-        _randomService = new RandomService();
-        _randomService = randomService;
     }
 
     public FightResult StartFight()
     {
-        bool isFirstPlayerTurn = _randomService.GetNext(0, 1) == 0;
+        bool isFirstPlayerTurn = true;
         bool isGameFinished = false;
 
         while (!isGameFinished)
@@ -52,19 +48,13 @@ public class Fight
                         : new FightResult.FirstWin();
             }
 
-            ICreature firstPlayerCreature = GetRandomFighter(validFightersFirstPlayer);
-            ICreature secondPlayerCreature = GetRandomFighter(validFightersSecondPlayer);
+            ICreature firstPlayerCreature = _firstPlayerBoard.GetRandomFighter(validFightersFirstPlayer);
+            ICreature secondPlayerCreature = _secondPlayerBoard.GetRandomFighter(validFightersSecondPlayer);
 
             firstPlayerCreature.AttackCreature(secondPlayerCreature);
             isFirstPlayerTurn = !isFirstPlayerTurn;
         }
 
         return new FightResult.Failed();
-    }
-
-    private ICreature GetRandomFighter(IList<ICreature> creatures)
-    {
-        int fighterIndex = _randomService.GetNext(0, creatures.Count);
-        return creatures[fighterIndex];
     }
 }

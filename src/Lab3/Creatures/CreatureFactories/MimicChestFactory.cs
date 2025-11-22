@@ -1,7 +1,7 @@
 using Itmo.ObjectOrientedProgramming.Lab3.Attributes;
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 
-namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Directors;
+namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.CreatureFactories;
 
 public class MimicChestFactory : ICreatureFactory
 {
@@ -9,7 +9,7 @@ public class MimicChestFactory : ICreatureFactory
 
     private const int DefaultHealth = 1;
 
-    public ICreatureBuilder Direct(ICreatureBuilder builder)
+    public ICreatureBuilder Create(ICreatureBuilder builder)
     {
         return builder
             .WithAttack(new Attack(DefaultAttack))

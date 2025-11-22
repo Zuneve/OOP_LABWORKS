@@ -31,5 +31,22 @@ public abstract class BaseCreatureBuilder : ICreatureBuilder
         return this;
     }
 
-    public abstract ICreature Build();
+    public ICreature Build()
+    {
+        if (CreatureAttack is null || CreatureHealth is null)
+        {
+            throw new ArgumentNullException();
+        }
+
+        ICreature creature = CreateCreature(CreatureAttack, CreatureHealth);
+
+        foreach (IModifierApplierFactory modifierFactory in ModifierFactories)
+        {
+            creature = modifierFactory.ApplyModifier(creature);
+        }
+
+        return creature;
+    }
+
+    protected abstract ICreature CreateCreature(Attack attack, Health health);
 }

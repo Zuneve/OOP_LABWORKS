@@ -2,7 +2,7 @@ using Itmo.ObjectOrientedProgramming.Lab3.Attributes;
 using Itmo.ObjectOrientedProgramming.Lab3.Board;
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures;
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
-using Itmo.ObjectOrientedProgramming.Lab3.Creatures.Directors;
+using Itmo.ObjectOrientedProgramming.Lab3.Creatures.CreatureFactories;
 using Itmo.ObjectOrientedProgramming.Lab3.Modifiers.Factories;
 using Itmo.ObjectOrientedProgramming.Lab3.RandomServices;
 using Itmo.ObjectOrientedProgramming.Lab3.Spells;
@@ -19,7 +19,7 @@ public class Lab3Tests
         var builder = new CombatAnalystBuilder();
         var director = new CombatAnalystFactory();
 
-        ICreature creature = director.Direct(builder)
+        ICreature creature = director.Create(builder)
             .WithModifier(new MagicShieldModifierApplierFactory())
             .WithModifier(new MagicShieldModifierApplierFactory())
             .Build();
@@ -45,7 +45,7 @@ public class Lab3Tests
         var builder = new CombatAnalystBuilder();
         var director = new CombatAnalystFactory();
 
-        ICreature creature = director.Direct(builder)
+        ICreature creature = director.Create(builder)
             .WithModifier(new MagicShieldModifierApplierFactory())
             .WithModifier(new MagicShieldModifierApplierFactory())
             .Build();
@@ -63,11 +63,11 @@ public class Lab3Tests
         // arrange
         var builder1 = new MimicChestBuilder();
         var director1 = new MimicChestFactory();
-        ICreature creature1 = director1.Direct(builder1).Build();
+        ICreature creature1 = director1.Create(builder1).Build();
 
         var builder2 = new CombatAnalystBuilder();
         var director2 = new CombatAnalystFactory();
-        ICreature creature2 = director2.Direct(builder2).Build();
+        ICreature creature2 = director2.Create(builder2).Build();
 
         int originalAttack1 = creature1.CreatureAttack.Value;
         int originalHealth1 = creature1.CreatureHealth.Value;
@@ -95,11 +95,11 @@ public class Lab3Tests
         // arrange
         var builder1 = new AmuletMasterBuilder();
         var director1 = new AmuletMasterFactory();
-        ICreature creature1 = director1.Direct(builder1).Build();
+        ICreature creature1 = director1.Create(builder1).Build();
 
         var builder2 = new AmuletMasterBuilder();
         var director2 = new AmuletMasterFactory();
-        ICreature creature2 = director2.Direct(builder2).Build();
+        ICreature creature2 = director2.Create(builder2).Build();
 
         PlayerBoard board1 = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature1).Build();
         PlayerBoard board2 = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature2).Build();
@@ -118,14 +118,14 @@ public class Lab3Tests
         var builder1 = new MimicChestBuilder();
         var director1 = new MimicChestFactory();
 
-        ICreature creature1 = director1.Direct(builder1)
+        ICreature creature1 = director1.Create(builder1)
             .WithModifier(new AttackMasteryModifierApplierFactory())
             .Build();
 
         var builder2 = new EvilFighterBuilder();
         var director2 = new EvilFighterFactory();
 
-        ICreature creature2 = director2.Direct(builder2)
+        ICreature creature2 = director2.Create(builder2)
             .Build();
 
         // act
@@ -142,13 +142,13 @@ public class Lab3Tests
         var builder1 = new MimicChestBuilder();
         var director1 = new MimicChestFactory();
 
-        ICreature creature1 = director1.Direct(builder1)
+        ICreature creature1 = director1.Create(builder1)
             .Build();
 
         var builder2 = new ImmortalHorrorBuilder();
         var director2 = new ImmortalHorrorFactory();
 
-        ICreature creature2 = director2.Direct(builder2)
+        ICreature creature2 = director2.Create(builder2)
             .Build();
 
         // act
@@ -170,11 +170,11 @@ public class Lab3Tests
         // arrange
         var builder1 = new AmuletMasterBuilder();
         var director1 = new AmuletMasterFactory();
-        ICreature creature1 = director1.Direct(builder1).Build();
+        ICreature creature1 = director1.Create(builder1).Build();
 
         var builder2 = new CombatAnalystBuilder();
         var director2 = new CombatAnalystFactory();
-        ICreature creature2 = director2.Direct(builder2).Build();
+        ICreature creature2 = director2.Create(builder2).Build();
 
         PlayerBoard board1 = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature1).Build();
         PlayerBoard board2 = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature2).Build();
@@ -198,7 +198,7 @@ public class Lab3Tests
         // arrange
         var builder1 = new AmuletMasterBuilder();
         var director1 = new AmuletMasterFactory();
-        ICreature creature1 = director1.Direct(builder1).Build();
+        ICreature creature1 = director1.Create(builder1).Build();
 
         // act
         PlayerBoard board1 = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature1).Build();
@@ -214,7 +214,7 @@ public class Lab3Tests
         // arrange
         var builder1 = new AmuletMasterBuilder();
         var director1 = new AmuletMasterFactory();
-        ICreature creature1 = director1.Direct(builder1).Build();
+        ICreature creature1 = director1.Create(builder1).Build();
 
         // act
         PlayerBoard board1 = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature1).Build();
@@ -230,7 +230,7 @@ public class Lab3Tests
         // arrange
         var builder = new MimicChestBuilder();
         var director = new MimicChestFactory();
-        ICreature creature = director.Direct(builder).Build();
+        ICreature creature = director.Create(builder).Build();
 
         PlayerBoard board = new PlayerBoard.PlayerBoardBuilder().AddCreature(creature).Build();
         creature = board.ApplySpell(new ProtectionAmulet(), creature);
@@ -254,7 +254,7 @@ public class Lab3Tests
         // arrange
         var builder = new MimicChestBuilder();
         var director = new MimicChestFactory();
-        ICreature creature = director.Direct(builder).Build();
+        ICreature creature = director.Create(builder).Build();
 
         int oldAttack = creature.CreatureAttack.Value;
         int oldHealth = creature.CreatureHealth.Value;

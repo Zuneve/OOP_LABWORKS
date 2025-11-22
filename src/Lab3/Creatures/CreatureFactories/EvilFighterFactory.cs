@@ -1,7 +1,7 @@
 using Itmo.ObjectOrientedProgramming.Lab3.Attributes;
 using Itmo.ObjectOrientedProgramming.Lab3.Creatures.Builders;
 
-namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.Directors;
+namespace Itmo.ObjectOrientedProgramming.Lab3.Creatures.CreatureFactories;
 
 public class EvilFighterFactory : ICreatureFactory
 {
@@ -9,7 +9,7 @@ public class EvilFighterFactory : ICreatureFactory
 
     private const int DefaultHealth = 6;
 
-    public ICreatureBuilder Direct(ICreatureBuilder builder)
+    public ICreatureBuilder Create(ICreatureBuilder builder)
     {
         return builder
             .WithAttack(new Attack(DefaultAttack))
