@@ -1,6 +1,7 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.FileSystemCommandResult;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
 
@@ -20,13 +21,10 @@ public class CopyFileCommand : ICommand
     {
         IFileSystem? fileSystem = connectionContext.FileSystem;
 
-        if (fileSystem is null)
-        {
-            return new CommandExecuteResult.Failed(new FileSystemNotConnectedError());
-        }
-
-        fileSystem.CopyFile(_sourcePath, _destinationPath);
-
-        return new CommandExecuteResult.Success();
+        return fileSystem is null
+            ? new CommandExecuteResult.Failed(new FileSystemNotConnectedError())
+            : (fileSystem.CopyFile(_sourcePath, _destinationPath) is FileSystemCopyResult.Failed copyFile
+            ? new CommandExecuteResult.Failed(copyFile.Error)
+            : new CommandExecuteResult.Success());
     }
 }

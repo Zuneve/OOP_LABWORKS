@@ -24,10 +24,8 @@ public class TreeGoToCommand : ICommand
 
         string fullPath = Path.GetFullPath(_path);
 
-        if (Directory.Exists(fullPath))
-        {
-            connectionContext.SetCurrentDirectory(fullPath);
-        }
+        if (!Directory.Exists(fullPath)) return new CommandExecuteResult.Failed(new DirectoryNotFoundError());
+        connectionContext.SetCurrentDirectory(fullPath);
 
         return new CommandExecuteResult.Success();
     }

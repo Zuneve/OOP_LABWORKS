@@ -1,6 +1,7 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.FileSystemCommandResult;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
 
@@ -17,13 +18,10 @@ public class DeleteFileCommand : ICommand
     {
         IFileSystem? fileSystem = connectionContext.FileSystem;
 
-        if (fileSystem is null)
-        {
-            return new CommandExecuteResult.Failed(new FileSystemNotConnectedError());
-        }
-
-        fileSystem.DeleteFile(_path);
-
-        return new CommandExecuteResult.Success();
+        return fileSystem is null
+            ? new CommandExecuteResult.Failed(new FileSystemNotConnectedError())
+            : fileSystem.DeleteFile(_path) is FileSystemDeleteResult.Failed deleteFile
+            ? new CommandExecuteResult.Failed(deleteFile.Error)
+            : new CommandExecuteResult.Success();
     }
 }
