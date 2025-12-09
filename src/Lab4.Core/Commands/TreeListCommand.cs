@@ -1,3 +1,4 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Nodes;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Visitors;
@@ -25,6 +26,11 @@ public class TreeListCommand : ICommand
 
     public CommandExecuteResult Execute(ConnectionContext connectionContext)
     {
+        if (connectionContext.FileSystem is null)
+        {
+            return new CommandExecuteResult.Failed(new FileSystemNotConnectedError());
+        }
+
         var fileSystemNodeCreator = new FileSystemNodeCreator();
         IFileSystemNode root = fileSystemNodeCreator.
             CreateFileSystemNode(connectionContext.CurrentDirectory);

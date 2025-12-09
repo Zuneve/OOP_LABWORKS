@@ -1,5 +1,4 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes.FileSystemCommandResult;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Writers;
 
@@ -7,27 +6,8 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 
 public class LocalFileSystem : IFileSystem
 {
-    private readonly ConnectionContext _connectionContext;
-
-    public LocalFileSystem(ConnectionContext connectionContext)
+    public FileSystemMoveResult MoveFile(string sourceAbsolutePath, string destinationAbsolutePath)
     {
-        _connectionContext = connectionContext;
-    }
-
-    public FileSystemMoveResult MoveFile(string sourcePath, string destinationPath)
-    {
-        PathResolverResult sourcePathResolve = _connectionContext.ResolvePath(sourcePath);
-        PathResolverResult destinationPathResolve = _connectionContext.ResolvePath(destinationPath);
-
-        if (sourcePathResolve is not PathResolverResult.Success sourcePathResolveSuccess
-            || destinationPathResolve is not PathResolverResult.Success destinationPathResolveSuccess)
-        {
-            return new FileSystemMoveResult.Failed(new FileNotFoundError());
-        }
-
-        string sourceAbsolutePath = sourcePathResolveSuccess.Path;
-        string destinationAbsolutePath = destinationPathResolveSuccess.Path;
-
         if (!File.Exists(sourceAbsolutePath) || !Directory.Exists(destinationAbsolutePath))
         {
             return new FileSystemMoveResult.Failed(new FileNotFoundError());
@@ -37,20 +17,8 @@ public class LocalFileSystem : IFileSystem
         return new FileSystemMoveResult.Success();
     }
 
-    public FileSystemCopyResult CopyFile(string sourcePath, string destinationPath)
+    public FileSystemCopyResult CopyFile(string sourceAbsolutePath, string destinationAbsolutePath)
     {
-        PathResolverResult sourcePathResolve = _connectionContext.ResolvePath(sourcePath);
-        PathResolverResult destinationPathResolve = _connectionContext.ResolvePath(destinationPath);
-
-        if (sourcePathResolve is not PathResolverResult.Success sourcePathResolveSuccess
-            || destinationPathResolve is not PathResolverResult.Success destinationPathResolveSuccess)
-        {
-            return new FileSystemCopyResult.Failed(new FileNotFoundError());
-        }
-
-        string sourceAbsolutePath = sourcePathResolveSuccess.Path;
-        string destinationAbsolutePath = destinationPathResolveSuccess.Path;
-
         if (!File.Exists(sourceAbsolutePath) || !Directory.Exists(destinationAbsolutePath))
         {
             return new FileSystemCopyResult.Failed(new FileNotFoundError());
@@ -60,17 +28,8 @@ public class LocalFileSystem : IFileSystem
         return new FileSystemCopyResult.Success();
     }
 
-    public FileSystemDeleteResult DeleteFile(string path)
+    public FileSystemDeleteResult DeleteFile(string absolutePath)
     {
-        PathResolverResult pathResolve = _connectionContext.ResolvePath(path);
-
-        if (pathResolve is not PathResolverResult.Success pathResolveSuccess)
-        {
-            return new FileSystemDeleteResult.Failed(new FileNotFoundError());
-        }
-
-        string absolutePath = pathResolveSuccess.Path;
-
         if (!File.Exists(absolutePath))
         {
             return new FileSystemDeleteResult.Failed(new FileNotFoundError());
@@ -80,17 +39,8 @@ public class LocalFileSystem : IFileSystem
         return new FileSystemDeleteResult.Success();
     }
 
-    public FileSystemShowResult ShowFile(string path, IWriter writer)
+    public FileSystemShowResult ShowFile(string absolutePath, IWriter writer)
     {
-        PathResolverResult pathResolve = _connectionContext.ResolvePath(path);
-
-        if (pathResolve is not PathResolverResult.Success pathResolveSuccess)
-        {
-            return new FileSystemShowResult.Failed(new FileNotFoundError());
-        }
-
-        string absolutePath = pathResolveSuccess.Path;
-
         if (!File.Exists(absolutePath))
         {
             return new FileSystemShowResult.Failed(new FileNotFoundError());
@@ -103,17 +53,8 @@ public class LocalFileSystem : IFileSystem
         return new FileSystemShowResult.Success();
     }
 
-    public FileSystemRenameResult RenameFile(string path, string newFileName)
+    public FileSystemRenameResult RenameFile(string absolutePath, string newFileName)
     {
-        PathResolverResult pathResolve = _connectionContext.ResolvePath(path);
-
-        if (pathResolve is not PathResolverResult.Success pathResolveSuccess)
-        {
-            return new FileSystemRenameResult.Failed(new FileNotFoundError());
-        }
-
-        string absolutePath = pathResolveSuccess.Path;
-
         if (!File.Exists(absolutePath))
         {
             return new FileSystemRenameResult.Failed(new FileNotFoundError());

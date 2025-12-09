@@ -1,5 +1,6 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Handlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Writers;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser;
@@ -10,7 +11,10 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Tests;
 public class Lab4Tests
 {
     private readonly CommandParser _parser = new();
-    private readonly MainHandler _mainHandler = new(new ConsoleWriter(), new TreeViewSymbolsSettings());
+    private readonly MainHandler _mainHandler = new(
+        new ConsoleWriter(),
+        new LocalFileSystem(),
+        new TreeViewSymbolsSettings());
 
     [Theory]
     [InlineData("connect smth -m local")]

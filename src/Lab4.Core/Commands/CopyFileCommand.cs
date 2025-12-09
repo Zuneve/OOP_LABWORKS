@@ -21,10 +21,22 @@ public class CopyFileCommand : ICommand
     {
         IFileSystem? fileSystem = connectionContext.FileSystem;
 
+        PathResolverResult sourcePathResolve = connectionContext.ResolvePath(_sourcePath);
+        PathResolverResult destinationPathResolve = connectionContext.ResolvePath(_destinationPath);
+
+        if (sourcePathResolve is not PathResolverResult.Success sourcePathResolveSuccess
+            || destinationPathResolve is not PathResolverResult.Success destinationPathResolveSuccess)
+        {
+            return new CommandExecuteResult.Failed(new FileNotFoundError());
+        }
+
+        string sourceAbsolutePath = sourcePathResolveSuccess.Path;
+        string destinationAbsolutePath = destinationPathResolveSuccess.Path;
+
         return fileSystem is null
             ? new CommandExecuteResult.Failed(new FileSystemNotConnectedError())
-            : (fileSystem.CopyFile(_sourcePath, _destinationPath) is FileSystemCopyResult.Failed copyFile
+            : fileSystem.CopyFile(sourceAbsolutePath, destinationAbsolutePath) is FileSystemCopyResult.Failed copyFile
             ? new CommandExecuteResult.Failed(copyFile.Error)
-            : new CommandExecuteResult.Success());
+            : new CommandExecuteResult.Success();
     }
 }

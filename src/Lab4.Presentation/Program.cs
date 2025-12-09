@@ -12,9 +12,9 @@ public class Program
     public static void Main()
     {
         var parser = new CommandParser();
-        var mainHandler = new MainHandler(new ConsoleWriter(), new TreeViewSymbolsSettings());
+        var system = new LocalFileSystem();
+        var mainHandler = new MainHandler(new ConsoleWriter(), system, new TreeViewSymbolsSettings());
         var connectionContext = new ConnectionContext();
-        var system = new LocalFileSystem(connectionContext);
         connectionContext.SetFileSystem(system);
 
         while (true)

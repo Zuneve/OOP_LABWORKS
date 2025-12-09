@@ -5,13 +5,13 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 
 public interface IFileSystem
 {
-    FileSystemMoveResult MoveFile(string sourcePath, string destinationPath);
+    FileSystemMoveResult MoveFile(string sourceAbsolutePath, string destinationAbsolutePath);
 
-    FileSystemCopyResult CopyFile(string sourcePath, string destinationPath);
+    FileSystemCopyResult CopyFile(string sourceAbsolutePath, string destinationAbsolutePath);
 
-    FileSystemDeleteResult DeleteFile(string path);
+    FileSystemDeleteResult DeleteFile(string absolutePath);
 
-    FileSystemShowResult ShowFile(string path, IWriter writer);
+    FileSystemShowResult ShowFile(string absolutePath, IWriter writer);
 
-    FileSystemRenameResult RenameFile(string path, string newFileName);
+    FileSystemRenameResult RenameFile(string absolutePath, string newFileName);
 }

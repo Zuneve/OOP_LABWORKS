@@ -1,3 +1,4 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Handlers.ConnectHandlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Handlers.FileHandlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Handlers.TreeHandlers;
@@ -9,9 +10,10 @@ public class MainHandler : BaseHandler
 {
     public MainHandler(
         IWriter writer,
+        IFileSystem fileSystem,
         TreeViewSymbolsSettings treeViewSymbolsSettings)
     {
-        var connectHandler = new ConnectHandler();
+        var connectHandler = new ConnectHandler(fileSystem);
         var disconnectHandler = new DisconnectHandler();
         var copyFileHandler = new CopyFileHandler();
         var deleteFileHandler = new DeleteFileHandler();

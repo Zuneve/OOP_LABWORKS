@@ -22,9 +22,18 @@ public class ShowFileCommand : ICommand
     {
         IFileSystem? fileSystem = connectionContext.FileSystem;
 
+        PathResolverResult pathResolve = connectionContext.ResolvePath(_path);
+
+        if (pathResolve is not PathResolverResult.Success pathResolveSuccess)
+        {
+            return new CommandExecuteResult.Failed(new FileNotFoundError());
+        }
+
+        string absolutePath = pathResolveSuccess.Path;
+
         return fileSystem is null
             ? new CommandExecuteResult.Failed(new FileSystemNotConnectedError())
-            : fileSystem.ShowFile(_path, _writer) is FileSystemShowResult.Failed showFile
+            : fileSystem.ShowFile(absolutePath, _writer) is FileSystemShowResult.Failed showFile
             ? new CommandExecuteResult.Failed(showFile.Error)
             : new CommandExecuteResult.Success();
     }

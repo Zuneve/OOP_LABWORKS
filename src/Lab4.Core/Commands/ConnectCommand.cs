@@ -6,28 +6,25 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
 
 public class ConnectCommand : ICommand
 {
-    public ConnectCommand(string path)
+    public ConnectCommand(string path, IFileSystem fileSystem)
     {
         _path = path;
+        _fileSystem = fileSystem;
     }
 
     private readonly string _path;
 
+    private readonly IFileSystem _fileSystem;
+
     public CommandExecuteResult Execute(ConnectionContext connectionContext)
     {
-        IFileSystem? fileSystem = connectionContext.FileSystem;
-
-        if (fileSystem is null)
-        {
-            return new CommandExecuteResult.Failed(new FileSystemNotConnectedError());
-        }
-
         if (!Path.IsPathFullyQualified(_path))
         {
             return new CommandExecuteResult.Failed(new PathIsNotFullyQualifiedError());
         }
 
         connectionContext.SetCurrentDirectory(_path);
+        connectionContext.SetFileSystem(_fileSystem);
 
         return new CommandExecuteResult.Success();
     }

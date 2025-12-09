@@ -21,9 +21,18 @@ public class RenameFileCommand : ICommand
     {
         IFileSystem? fileSystem = connectionContext.FileSystem;
 
+        PathResolverResult pathResolve = connectionContext.ResolvePath(_path);
+
+        if (pathResolve is not PathResolverResult.Success pathResolveSuccess)
+        {
+            return new CommandExecuteResult.Failed(new FileNotFoundError());
+        }
+
+        string absolutePath = pathResolveSuccess.Path;
+
         return fileSystem is null
             ? new CommandExecuteResult.Failed(new FileSystemNotConnectedError())
-            : fileSystem.RenameFile(_path, _newFileName) is FileSystemRenameResult.Failed renameFile
+            : fileSystem.RenameFile(absolutePath, _newFileName) is FileSystemRenameResult.Failed renameFile
             ? new CommandExecuteResult.Failed(renameFile.Error)
             : new CommandExecuteResult.Success();
     }

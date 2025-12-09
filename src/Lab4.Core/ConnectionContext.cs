@@ -7,13 +7,6 @@ public class ConnectionContext
 {
     private readonly PathResolver _pathResolver;
 
-    public ConnectionContext(IFileSystem fileSystem)
-    {
-        FileSystem = fileSystem;
-        CurrentDirectory = string.Empty;
-        _pathResolver = new PathResolver();
-    }
-
     public ConnectionContext()
     {
         CurrentDirectory = string.Empty;
