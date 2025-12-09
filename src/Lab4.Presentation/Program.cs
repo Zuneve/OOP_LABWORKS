@@ -15,7 +15,6 @@ public class Program
         var system = new LocalFileSystem();
         var mainHandler = new MainHandler(new ConsoleWriter(), system, new TreeViewSymbolsSettings());
         var connectionContext = new ConnectionContext();
-        connectionContext.SetFileSystem(system);
 
         while (true)
         {

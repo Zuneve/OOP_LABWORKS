@@ -6,6 +6,14 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Visitors;
 
 public class FileSystemNodeVisitor : IVisitor
 {
+    private readonly IWriter _writer;
+
+    private readonly int _maxDepth;
+
+    private readonly TreeViewSymbolsSettings _treeViewSymbolsSettings;
+
+    private int _currentDepth;
+
     public FileSystemNodeVisitor(
         IWriter writer,
         int maxDepth,
@@ -16,14 +24,6 @@ public class FileSystemNodeVisitor : IVisitor
         _currentDepth = 0;
         _treeViewSymbolsSettings = treeViewSymbolsSettings;
     }
-
-    private readonly IWriter _writer;
-
-    private readonly int _maxDepth;
-
-    private readonly TreeViewSymbolsSettings _treeViewSymbolsSettings;
-
-    private int _currentDepth;
 
     public void Visit(DirectoryFileSystemNode directoryFileSystemNode)
     {
@@ -36,20 +36,9 @@ public class FileSystemNodeVisitor : IVisitor
 
         _currentDepth++;
 
-        foreach (IFileSystemNode child in directoryFileSystemNode.Children.Value)
+        foreach (IFileSystemNode child in directoryFileSystemNode.Children)
         {
-            if (child is FileFileSystemNode)
-            {
-                child.Accept(this);
-            }
-        }
-
-        foreach (IFileSystemNode child in directoryFileSystemNode.Children.Value)
-        {
-            if (child is DirectoryFileSystemNode)
-            {
-                child.Accept(this);
-            }
+            child.Accept(this);
         }
 
         _currentDepth--;

@@ -4,20 +4,41 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Nodes;
 
 public class DirectoryFileSystemNode : IFileSystemNode
 {
+    private readonly Lazy<IReadOnlyCollection<IFileSystemNode>> _children;
+
+    private readonly string _path;
+
     public DirectoryFileSystemNode(
-        string name,
-        IReadOnlyCollection<IFileSystemNode> children)
+        string path)
     {
-        Name = name;
-        Children = new Lazy<IReadOnlyCollection<IFileSystemNode>>(children);
+        _path = path;
+        Name = Path.GetFileName(path);
+        _children = new Lazy<IReadOnlyCollection<IFileSystemNode>>(LoadChildren);
     }
 
     public string Name { get; }
 
-    public Lazy<IReadOnlyCollection<IFileSystemNode>> Children { get; }
+    public IReadOnlyCollection<IFileSystemNode> Children => _children.Value;
 
     public void Accept(IVisitor visitor)
     {
         visitor.Visit(this);
+    }
+
+    private List<IFileSystemNode> LoadChildren()
+    {
+        var result = new List<IFileSystemNode>();
+
+        foreach (string directory in Directory.GetDirectories(_path))
+        {
+            result.Add(new DirectoryFileSystemNode(directory));
+        }
+
+        foreach (string file in Directory.GetFiles(_path))
+        {
+            result.Add(new FileFileSystemNode(file));
+        }
+
+        return result;
     }
 }

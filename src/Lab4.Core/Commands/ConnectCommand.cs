@@ -6,15 +6,15 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
 
 public class ConnectCommand : ICommand
 {
+    private readonly string _path;
+
+    private readonly IFileSystem _fileSystem;
+
     public ConnectCommand(string path, IFileSystem fileSystem)
     {
         _path = path;
         _fileSystem = fileSystem;
     }
-
-    private readonly string _path;
-
-    private readonly IFileSystem _fileSystem;
 
     public CommandExecuteResult Execute(ConnectionContext connectionContext)
     {

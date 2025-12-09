@@ -6,6 +6,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Handlers.TreeHandlers;
 public class TreeListHandler : BaseHandler
 {
     private readonly IWriter _writer;
+
     private readonly TreeViewSymbolsSettings _treeViewSymbolsSettings;
 
     public TreeListHandler(
