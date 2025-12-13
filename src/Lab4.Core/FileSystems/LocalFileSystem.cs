@@ -8,7 +8,7 @@ public class LocalFileSystem : IFileSystem
 {
     public FileSystemMoveResult MoveFile(string sourceAbsolutePath, string destinationAbsolutePath)
     {
-        if (!File.Exists(sourceAbsolutePath) || !Directory.Exists(destinationAbsolutePath))
+        if (!IsFileExists(sourceAbsolutePath) || !IsDirectoryExists(destinationAbsolutePath))
         {
             return new FileSystemMoveResult.Failed(new FileNotFoundError());
         }
@@ -19,7 +19,7 @@ public class LocalFileSystem : IFileSystem
 
     public FileSystemCopyResult CopyFile(string sourceAbsolutePath, string destinationAbsolutePath)
     {
-        if (!File.Exists(sourceAbsolutePath) || !Directory.Exists(destinationAbsolutePath))
+        if (!IsFileExists(sourceAbsolutePath) || !IsDirectoryExists(destinationAbsolutePath))
         {
             return new FileSystemCopyResult.Failed(new FileNotFoundError());
         }
@@ -30,7 +30,7 @@ public class LocalFileSystem : IFileSystem
 
     public FileSystemDeleteResult DeleteFile(string absolutePath)
     {
-        if (!File.Exists(absolutePath))
+        if (!IsFileExists(absolutePath))
         {
             return new FileSystemDeleteResult.Failed(new FileNotFoundError());
         }
@@ -41,7 +41,7 @@ public class LocalFileSystem : IFileSystem
 
     public FileSystemShowResult ShowFile(string absolutePath, IWriter writer)
     {
-        if (!File.Exists(absolutePath))
+        if (!IsFileExists(absolutePath))
         {
             return new FileSystemShowResult.Failed(new FileNotFoundError());
         }
@@ -55,7 +55,7 @@ public class LocalFileSystem : IFileSystem
 
     public FileSystemRenameResult RenameFile(string absolutePath, string newFileName)
     {
-        if (!File.Exists(absolutePath))
+        if (!IsFileExists(absolutePath))
         {
             return new FileSystemRenameResult.Failed(new FileNotFoundError());
         }
@@ -70,5 +70,30 @@ public class LocalFileSystem : IFileSystem
         File.Move(absolutePath, newFilePath);
 
         return new FileSystemRenameResult.Success();
+    }
+
+    public IEnumerable<string> GetFiles(string path)
+    {
+        return Directory.GetFiles(path);
+    }
+
+    public IEnumerable<string> GetDirectories(string path)
+    {
+        return Directory.GetDirectories(path);
+    }
+
+    public string GetFileName(string path)
+    {
+        return Path.GetFileName(path);
+    }
+
+    public bool IsFileExists(string path)
+    {
+        return File.Exists(path);
+    }
+
+    public bool IsDirectoryExists(string path)
+    {
+        return Directory.Exists(path);
     }
 }

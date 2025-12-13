@@ -31,7 +31,7 @@ public class TreeListCommand : ICommand
             return new CommandExecuteResult.Failed(new FileSystemNotConnectedError());
         }
 
-        var root = new DirectoryFileSystemNode(connectionContext.CurrentDirectory);
+        var root = new DirectoryFileSystemNode(connectionContext.CurrentDirectory, connectionContext.FileSystem);
 
         var visitor = new FileSystemNodeVisitor(
             _writer,

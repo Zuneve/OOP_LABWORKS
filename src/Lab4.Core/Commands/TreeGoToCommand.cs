@@ -22,10 +22,15 @@ public class TreeGoToCommand : ICommand
             return new CommandExecuteResult.Failed(new FileSystemNotConnectedError());
         }
 
-        string fullPath = Path.GetFullPath(_path);
+        PathResolverResult resolverResult = connectionContext.ResolvePath(_path);
 
-        if (!Directory.Exists(fullPath)) return new CommandExecuteResult.Failed(new DirectoryNotFoundError());
-        connectionContext.SetCurrentDirectory(fullPath);
+        if (resolverResult is not PathResolverResult.Success result
+            || fileSystem.IsDirectoryExists(result.Path))
+        {
+            return new CommandExecuteResult.Failed(new DirectoryNotFoundError());
+        }
+
+        connectionContext.SetCurrentDirectory(result.Path);
 
         return new CommandExecuteResult.Success();
     }

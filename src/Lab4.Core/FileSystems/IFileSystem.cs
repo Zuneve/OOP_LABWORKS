@@ -14,4 +14,14 @@ public interface IFileSystem
     FileSystemShowResult ShowFile(string absolutePath, IWriter writer);
 
     FileSystemRenameResult RenameFile(string absolutePath, string newFileName);
+
+    string GetFileName(string path);
+
+    IEnumerable<string> GetFiles(string path);
+
+    IEnumerable<string> GetDirectories(string path);
+
+    bool IsFileExists(string path);
+
+    bool IsDirectoryExists(string path);
 }

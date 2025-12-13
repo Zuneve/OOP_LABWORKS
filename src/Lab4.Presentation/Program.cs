@@ -1,6 +1,5 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Handlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Writers;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser;
@@ -12,8 +11,7 @@ public class Program
     public static void Main()
     {
         var parser = new CommandParser();
-        var system = new LocalFileSystem();
-        var mainHandler = new MainHandler(new ConsoleWriter(), system, new TreeViewSymbolsSettings());
+        var mainHandler = new MainHandler(new ConsoleWriter(), new TreeViewSymbolsSettings());
         var connectionContext = new ConnectionContext();
 
         while (true)

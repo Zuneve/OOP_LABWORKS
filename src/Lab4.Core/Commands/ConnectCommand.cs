@@ -18,7 +18,7 @@ public class ConnectCommand : ICommand
 
     public CommandExecuteResult Execute(ConnectionContext connectionContext)
     {
-        if (!Path.IsPathFullyQualified(_path))
+        if (!connectionContext.IsPathFullyQualified(_path))
         {
             return new CommandExecuteResult.Failed(new PathIsNotFullyQualifiedError());
         }

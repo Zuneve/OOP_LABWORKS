@@ -5,13 +5,6 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Handlers.FileHandlers;
 
 public class ShowFileHandler : BaseHandler
 {
-    private readonly IWriter _writer;
-
-    public ShowFileHandler(IWriter writer)
-    {
-        _writer = writer;
-    }
-
     public override ICommand? Handle(CommandOptions commandOptions)
     {
         IList<string> parameters = commandOptions.Parameters;
@@ -27,7 +20,7 @@ public class ShowFileHandler : BaseHandler
 
         return mode switch
         {
-            "console" => new ShowFileCommand(parameters[2], _writer),
+            "console" => new ShowFileCommand(parameters[2], new ConsoleWriter()),
             _ => null,
         };
     }

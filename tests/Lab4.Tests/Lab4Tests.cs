@@ -1,6 +1,5 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
-using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Handlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Writers;
 using Itmo.ObjectOrientedProgramming.Lab4.Presentation.Parser;
@@ -13,7 +12,6 @@ public class Lab4Tests
     private readonly CommandParser _parser = new();
     private readonly MainHandler _mainHandler = new(
         new ConsoleWriter(),
-        new LocalFileSystem(),
         new TreeViewSymbolsSettings());
 
     [Theory]

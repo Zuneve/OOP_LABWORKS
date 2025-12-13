@@ -13,4 +13,9 @@ public class PathResolver
             ? new PathResolverResult.Success(Path.GetFullPath(inputPath))
             : new PathResolverResult.Success(Path.GetFullPath(inputPath, currentDirectory));
     }
+
+    public bool IsPathFullyQualified(string path)
+    {
+        return Path.IsPathFullyQualified(path);
+    }
 }

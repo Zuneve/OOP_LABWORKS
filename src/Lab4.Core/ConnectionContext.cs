@@ -36,4 +36,9 @@ public class ConnectionContext
     {
         return _pathResolver.ResolvePath(CurrentDirectory, inputPath);
     }
+
+    public bool IsPathFullyQualified(string path)
+    {
+        return _pathResolver.IsPathFullyQualified(path);
+    }
 }
