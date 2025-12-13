@@ -5,8 +5,6 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Nodes;
 
 public class DirectoryFileSystemNode : IFileSystemNode
 {
-    private readonly Lazy<IReadOnlyCollection<IFileSystemNode>> _children;
-
     private readonly string _path;
 
     private readonly IFileSystem _fileSystem;
@@ -16,25 +14,29 @@ public class DirectoryFileSystemNode : IFileSystemNode
         IFileSystem fileSystem)
     {
         _path = path;
-        _children = new Lazy<IReadOnlyCollection<IFileSystemNode>>(LoadChildren);
         _fileSystem = fileSystem;
         Name = _fileSystem.GetFileName(_path);
     }
 
     public string Name { get; }
 
-    public IReadOnlyCollection<IFileSystemNode> Children => _children.Value;
+    public IEnumerable<IFileSystemNode> Children => LoadChildren();
 
     public void Accept(IVisitor visitor)
     {
         visitor.Visit(this);
     }
 
-    private List<IFileSystemNode> LoadChildren()
+    private IEnumerable<IFileSystemNode> LoadChildren()
     {
-        var result = _fileSystem.GetDirectories(_path).Select(directory => new DirectoryFileSystemNode(directory, _fileSystem)).Cast<IFileSystemNode>().ToList();
-        result.AddRange(_fileSystem.GetFiles(_path).Select(file => new FileFileSystemNode(file)));
+        foreach (DirectoryFileSystemNode node in _fileSystem.GetDirectories(_path).Select(directory => new DirectoryFileSystemNode(directory, _fileSystem)))
+        {
+            yield return node;
+        }
 
-        return result;
+        foreach (FileFileSystemNode node in _fileSystem.GetFiles(_path).Select(file => new FileFileSystemNode(file)))
+        {
+            yield return node;
+        }
     }
 }

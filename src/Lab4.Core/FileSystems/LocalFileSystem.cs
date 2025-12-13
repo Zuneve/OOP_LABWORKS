@@ -48,9 +48,7 @@ public class LocalFileSystem : IFileSystem
 
         string content = File.ReadAllText(absolutePath);
 
-        writer.Write(content);
-        writer.Write("\n");
-        return new FileSystemShowResult.Success();
+        return new FileSystemShowResult.Success(content + "\n");
     }
 
     public FileSystemRenameResult RenameFile(string absolutePath, string newFileName)
@@ -87,6 +85,16 @@ public class LocalFileSystem : IFileSystem
         return Path.GetFileName(path);
     }
 
+    public string GetFullPath(string path)
+    {
+        return Path.GetFullPath(path);
+    }
+
+    public string GetFullPath(string path, string currentDirectory)
+    {
+        return Path.GetFullPath(path, currentDirectory);
+    }
+
     public bool IsFileExists(string path)
     {
         return File.Exists(path);
@@ -95,5 +103,15 @@ public class LocalFileSystem : IFileSystem
     public bool IsDirectoryExists(string path)
     {
         return Directory.Exists(path);
+    }
+
+    public bool IsPathRooted(string path)
+    {
+        return Path.IsPathRooted(path);
+    }
+
+    public bool IsPathFullyQualified(string path)
+    {
+        return Path.IsPathFullyQualified(path);
     }
 }

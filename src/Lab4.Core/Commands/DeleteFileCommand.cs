@@ -18,6 +18,11 @@ public class DeleteFileCommand : ICommand
     {
         IFileSystem? fileSystem = connectionContext.FileSystem;
 
+        if (fileSystem is null)
+        {
+            return new CommandExecuteResult.Failed(new FileSystemNotConnectedError());
+        }
+
         PathResolverResult pathResolve = connectionContext.ResolvePath(_path);
 
         if (pathResolve is not PathResolverResult.Success pathResolveSuccess)
@@ -27,10 +32,11 @@ public class DeleteFileCommand : ICommand
 
         string absolutePath = pathResolveSuccess.Path;
 
-        return fileSystem is null
-            ? new CommandExecuteResult.Failed(new FileSystemNotConnectedError())
-            : fileSystem.DeleteFile(absolutePath) is FileSystemDeleteResult.Failed deleteFile
-            ? new CommandExecuteResult.Failed(deleteFile.Error)
-            : new CommandExecuteResult.Success();
+        if (fileSystem.DeleteFile(absolutePath) is FileSystemDeleteResult.Failed)
+        {
+            return new CommandExecuteResult.Failed(new FileNotFoundError());
+        }
+
+        return new CommandExecuteResult.Success();
     }
 }

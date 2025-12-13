@@ -21,6 +21,11 @@ public class CopyFileCommand : ICommand
     {
         IFileSystem? fileSystem = connectionContext.FileSystem;
 
+        if (fileSystem is null)
+        {
+            return new CommandExecuteResult.Failed(new FileSystemNotConnectedError());
+        }
+
         PathResolverResult sourcePathResolve = connectionContext.ResolvePath(_sourcePath);
         PathResolverResult destinationPathResolve = connectionContext.ResolvePath(_destinationPath);
 
@@ -33,10 +38,11 @@ public class CopyFileCommand : ICommand
         string sourceAbsolutePath = sourcePathResolveSuccess.Path;
         string destinationAbsolutePath = destinationPathResolveSuccess.Path;
 
-        return fileSystem is null
-            ? new CommandExecuteResult.Failed(new FileSystemNotConnectedError())
-            : fileSystem.CopyFile(sourceAbsolutePath, destinationAbsolutePath) is FileSystemCopyResult.Failed copyFile
-            ? new CommandExecuteResult.Failed(copyFile.Error)
-            : new CommandExecuteResult.Success();
+        if (fileSystem.CopyFile(sourceAbsolutePath, destinationAbsolutePath) is FileSystemCopyResult.Failed)
+        {
+            return new CommandExecuteResult.Failed(new FileNotFoundError());
+        }
+
+        return new CommandExecuteResult.Success();
     }
 }

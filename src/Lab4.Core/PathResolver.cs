@@ -1,21 +1,30 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.FileSystems;
 using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core;
 
 public class PathResolver
 {
-    public PathResolverResult ResolvePath(string currentDirectory, string inputPath)
+    private readonly IFileSystem? _fileSystem;
+
+    public PathResolver(IFileSystem? fileSystem)
     {
-        return string.IsNullOrWhiteSpace(inputPath)
-            ? new PathResolverResult.Failed(new EmptyPathError())
-            : Path.IsPathRooted(inputPath)
-            ? new PathResolverResult.Success(Path.GetFullPath(inputPath))
-            : new PathResolverResult.Success(Path.GetFullPath(inputPath, currentDirectory));
+        _fileSystem = fileSystem;
     }
 
-    public bool IsPathFullyQualified(string path)
+    public PathResolverResult ResolvePath(string currentDirectory, string inputPath)
     {
-        return Path.IsPathFullyQualified(path);
+        if (_fileSystem is null || string.IsNullOrWhiteSpace(inputPath))
+        {
+            return new PathResolverResult.Failed(new EmptyPathError());
+        }
+
+        if (_fileSystem.IsPathRooted(inputPath))
+        {
+            return new PathResolverResult.Success(_fileSystem.GetFullPath(inputPath));
+        }
+
+        return new PathResolverResult.Success(_fileSystem.GetFullPath(inputPath, currentDirectory));
     }
 }

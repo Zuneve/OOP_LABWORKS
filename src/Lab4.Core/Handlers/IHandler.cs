@@ -1,4 +1,4 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Handlers;
 
@@ -6,5 +6,5 @@ public interface IHandler
 {
     IHandler AddNext(IHandler handler);
 
-    ICommand? Handle(CommandOptions commandOptions);
+    HandleResult Handle(IEnumerator<string> iterator);
 }

@@ -5,40 +5,33 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Core;
 
 public class ConnectionContext
 {
-    private readonly PathResolver _pathResolver;
+    private PathResolver _pathResolver;
 
     public ConnectionContext()
     {
         CurrentDirectory = string.Empty;
-        _pathResolver = new PathResolver();
+        _pathResolver = new PathResolver(null);
     }
 
     public string CurrentDirectory { get; private set; }
 
     public IFileSystem? FileSystem { get; private set; }
 
-    public void Clear()
+    public void Disconnect()
     {
         FileSystem = null;
+        CurrentDirectory = string.Empty;
     }
 
-    public void SetCurrentDirectory(string path)
-    {
-        CurrentDirectory = path;
-    }
-
-    public void SetFileSystem(IFileSystem fileSystem)
+    public void Connect(IFileSystem fileSystem, string path)
     {
         FileSystem = fileSystem;
+        _pathResolver = new PathResolver(fileSystem);
+        CurrentDirectory = path;
     }
 
     public PathResolverResult ResolvePath(string inputPath)
     {
         return _pathResolver.ResolvePath(CurrentDirectory, inputPath);
-    }
-
-    public bool IsPathFullyQualified(string path)
-    {
-        return _pathResolver.IsPathFullyQualified(path);
     }
 }

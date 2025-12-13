@@ -9,4 +9,8 @@
         <ProjectReference Include="..\Lab4.Core\Lab4.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="JetBrains.Annotations" />
+    </ItemGroup>
+
 </Project>

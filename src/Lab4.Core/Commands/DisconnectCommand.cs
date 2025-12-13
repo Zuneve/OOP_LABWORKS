@@ -15,7 +15,7 @@ public class DisconnectCommand : ICommand
             return new CommandExecuteResult.Failed(new FileSystemNotConnectedError());
         }
 
-        connectionContext.Clear();
+        connectionContext.Disconnect();
 
         return new CommandExecuteResult.Success();
     }

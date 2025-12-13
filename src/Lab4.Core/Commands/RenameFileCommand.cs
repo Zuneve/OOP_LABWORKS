@@ -21,6 +21,11 @@ public class RenameFileCommand : ICommand
     {
         IFileSystem? fileSystem = connectionContext.FileSystem;
 
+        if (fileSystem is null)
+        {
+            return new CommandExecuteResult.Failed(new FileSystemNotConnectedError());
+        }
+
         PathResolverResult pathResolve = connectionContext.ResolvePath(_path);
 
         if (pathResolve is not PathResolverResult.Success pathResolveSuccess)
@@ -30,10 +35,11 @@ public class RenameFileCommand : ICommand
 
         string absolutePath = pathResolveSuccess.Path;
 
-        return fileSystem is null
-            ? new CommandExecuteResult.Failed(new FileSystemNotConnectedError())
-            : fileSystem.RenameFile(absolutePath, _newFileName) is FileSystemRenameResult.Failed renameFile
-            ? new CommandExecuteResult.Failed(renameFile.Error)
-            : new CommandExecuteResult.Success();
+        if (fileSystem.RenameFile(absolutePath, _newFileName) is FileSystemRenameResult.Failed)
+        {
+            return new CommandExecuteResult.Failed(new FileNotFoundError());
+        }
+
+        return new CommandExecuteResult.Success();
     }
 }

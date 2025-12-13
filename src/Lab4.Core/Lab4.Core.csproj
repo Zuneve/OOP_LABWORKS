@@ -4,4 +4,9 @@
         <RootNamespace>Itmo.ObjectOrientedProgramming.Lab4.Core</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Handlers\CommandsHandlers\" />
+      <Folder Include="Handlers\FlagsHandlers\" />
+    </ItemGroup>
+
 </Project>

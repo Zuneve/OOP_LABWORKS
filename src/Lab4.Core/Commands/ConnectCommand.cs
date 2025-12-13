@@ -18,13 +18,12 @@ public class ConnectCommand : ICommand
 
     public CommandExecuteResult Execute(ConnectionContext connectionContext)
     {
-        if (!connectionContext.IsPathFullyQualified(_path))
+        if (!_fileSystem.IsPathFullyQualified(_path))
         {
             return new CommandExecuteResult.Failed(new PathIsNotFullyQualifiedError());
         }
 
-        connectionContext.SetCurrentDirectory(_path);
-        connectionContext.SetFileSystem(_fileSystem);
+        connectionContext.Connect(_fileSystem, _path);
 
         return new CommandExecuteResult.Success();
     }

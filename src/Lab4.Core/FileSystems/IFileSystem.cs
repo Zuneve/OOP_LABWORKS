@@ -21,7 +21,15 @@ public interface IFileSystem
 
     IEnumerable<string> GetDirectories(string path);
 
+    string GetFullPath(string path);
+
+    string GetFullPath(string path, string currentDirectory);
+
     bool IsFileExists(string path);
 
     bool IsDirectoryExists(string path);
+
+    bool IsPathRooted(string path);
+
+    bool IsPathFullyQualified(string path);
 }

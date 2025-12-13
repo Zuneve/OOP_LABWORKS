@@ -46,7 +46,7 @@ public class FileSystemNodeVisitor : IVisitor
 
     public void Visit(FileFileSystemNode fileFileSystemNode)
     {
-        if (_maxDepth < _currentDepth)
+        if (_currentDepth >= _maxDepth)
         {
             return;
         }

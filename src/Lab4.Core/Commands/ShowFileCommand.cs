@@ -22,6 +22,11 @@ public class ShowFileCommand : ICommand
     {
         IFileSystem? fileSystem = connectionContext.FileSystem;
 
+        if (fileSystem is null)
+        {
+            return new CommandExecuteResult.Failed(new FileSystemNotConnectedError());
+        }
+
         PathResolverResult pathResolve = connectionContext.ResolvePath(_path);
 
         if (pathResolve is not PathResolverResult.Success pathResolveSuccess)
@@ -31,10 +36,13 @@ public class ShowFileCommand : ICommand
 
         string absolutePath = pathResolveSuccess.Path;
 
-        return fileSystem is null
-            ? new CommandExecuteResult.Failed(new FileSystemNotConnectedError())
-            : fileSystem.ShowFile(absolutePath, _writer) is FileSystemShowResult.Failed showFile
-            ? new CommandExecuteResult.Failed(showFile.Error)
-            : new CommandExecuteResult.Success();
+        if (fileSystem.ShowFile(absolutePath, _writer) is FileSystemShowResult.Success showFile)
+        {
+            _writer.Write(showFile.Text);
+
+            return new CommandExecuteResult.Success();
+        }
+
+        return new CommandExecuteResult.Failed(new FileNotFoundError());
     }
 }

@@ -1,4 +1,5 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Core.Commands;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.Errors;
+using Itmo.ObjectOrientedProgramming.Lab4.Core.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Core.Handlers;
 
@@ -20,8 +21,13 @@ public abstract class BaseHandler : IHandler
         return handler;
     }
 
-    public virtual ICommand? Handle(CommandOptions commandOptions)
+    public virtual HandleResult Handle(IEnumerator<string> iterator)
     {
-        return Next?.Handle(commandOptions);
+        if (Next is null)
+        {
+            return new HandleResult.Failed(new WrongCommandError());
+        }
+
+        return Next.Handle(iterator);
     }
 }

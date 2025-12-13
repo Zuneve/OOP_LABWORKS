@@ -30,7 +30,7 @@ public class TreeGoToCommand : ICommand
             return new CommandExecuteResult.Failed(new DirectoryNotFoundError());
         }
 
-        connectionContext.SetCurrentDirectory(result.Path);
+        connectionContext.Connect(fileSystem, result.Path);
 
         return new CommandExecuteResult.Success();
     }
