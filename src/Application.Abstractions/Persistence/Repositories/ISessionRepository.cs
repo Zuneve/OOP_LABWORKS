@@ -1,3 +1,4 @@
+using Application.Abstractions.Persistence.Queries;
 using Itmo.ObjectOrientedProgramming.Domain.Accounts;
 using Itmo.ObjectOrientedProgramming.Domain.Sessions;
 using Itmo.ObjectOrientedProgramming.Domain.ValueObjects;
@@ -10,7 +11,5 @@ public interface ISessionRepository
 
     AdminSession CreateAdminSession();
 
-    UserSession? TryGetUserSession(Guid sessionId);
-
-    AdminSession? TryGetAdminSession(Guid sessionId);
+    IEnumerable<BaseSession> Query(SessionQuery query);
 }

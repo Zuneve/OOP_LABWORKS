@@ -1,4 +1,5 @@
 using Application.Abstractions.Persistence;
+using Application.Abstractions.Persistence.Queries;
 using Itmo.ObjectOrientedProgramming.Application.Contracts.OperationHistory;
 using Itmo.ObjectOrientedProgramming.Application.Contracts.OperationHistory.Operations;
 using Itmo.ObjectOrientedProgramming.Application.Mapping;
@@ -18,14 +19,19 @@ public class OperationHistoryService : IOperationHistoryService
 
     public ShowOperationHistory.Response ShowOperationHistory(ShowOperationHistory.Request request)
     {
-        UserSession? userSession = _context.SessionRepository.TryGetUserSession(request.SessionId);
+        UserSession? userSession = _context.SessionRepository
+            .Query(SessionQuery.Build(builder => builder.WithId(request.SessionId)))
+            .OfType<UserSession>()
+            .SingleOrDefault();
 
         if (userSession is null)
         {
             return new ShowOperationHistory.Response.Failed();
         }
 
-        Account? account = _context.AccountRepository.FindById(userSession.AccountId);
+        Account? account = _context.AccountRepository
+            .Query(AccountQuery.Build(builder => builder.WithId(userSession.AccountId)))
+            .SingleOrDefault();
 
         if (account is null)
         {
@@ -33,7 +39,8 @@ public class OperationHistoryService : IOperationHistoryService
         }
 
         return new ShowOperationHistory.Response.Success(
-            _context.OperationHistoryRepository.GetOperationsByAccountId(account.Id)
+            _context.OperationHistoryRepository.
+                Query(OperationHistoryQuery.Build(builder => builder.WithId(account.Id)))
                 .Select(operation => operation.MapToDto())
                 .ToList());
     }

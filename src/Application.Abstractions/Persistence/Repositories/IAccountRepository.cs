@@ -1,3 +1,4 @@
+using Application.Abstractions.Persistence.Queries;
 using Application.Abstractions.Persistence.Repositories.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Domain.Accounts;
 
@@ -7,7 +8,7 @@ public interface IAccountRepository
 {
     Account Add(Account account);
 
-    Account? FindById(AccountId accountId);
+    IEnumerable<Account> Query(AccountQuery query);
 
     UpdateAccountResult Update(Account account);
 }

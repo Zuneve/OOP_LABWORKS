@@ -1,3 +1,4 @@
+using Application.Abstractions.Persistence.Queries;
 using Application.Abstractions.Persistence.Repositories;
 using Itmo.ObjectOrientedProgramming.Domain.Accounts;
 using Itmo.ObjectOrientedProgramming.Domain.ResultTypes;
@@ -16,7 +17,9 @@ public class Lab5Tests
     {
         // arrange
         var account = new Account(AccountId.Default, new PinCode("1234"));
-        _accountRepository.FindById(account.Id).Returns(account);
+        _accountRepository
+            .Query(Arg.Any<AccountQuery>())
+            .Returns(new[] { account });
 
         // act
         account.Deposit(1000);
@@ -34,7 +37,9 @@ public class Lab5Tests
     {
         // arrange
         var account = new Account(AccountId.Default, new PinCode("1234"));
-        _accountRepository.FindById(account.Id).Returns(account);
+        _accountRepository
+            .Query(Arg.Any<AccountQuery>())
+            .Returns(new[] { account });
 
         // act
         account.Deposit(1000);
@@ -51,7 +56,9 @@ public class Lab5Tests
     {
         // arrange
         var account = new Account(AccountId.Default, new PinCode("1234"));
-        _accountRepository.FindById(account.Id).Returns(account);
+        _accountRepository
+            .Query(Arg.Any<AccountQuery>())
+            .Returns(new[] { account });
 
         // act
         account.Deposit(1000);

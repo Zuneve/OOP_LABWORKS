@@ -1,3 +1,4 @@
+using Application.Abstractions.Persistence.Queries;
 using Application.Abstractions.Persistence.Repositories;
 using Itmo.ObjectOrientedProgramming.Domain.Accounts;
 using Itmo.ObjectOrientedProgramming.Domain.Sessions;
@@ -27,17 +28,9 @@ public class SessionRepository : ISessionRepository
         return adminSession;
     }
 
-    public UserSession? TryGetUserSession(Guid sessionId)
+    public IEnumerable<BaseSession> Query(SessionQuery query)
     {
         return _values
-            .OfType<UserSession>()
-            .FirstOrDefault(session => session.SessionId == sessionId);
-    }
-
-    public AdminSession? TryGetAdminSession(Guid sessionId)
-    {
-        return _values
-            .OfType<AdminSession>()
-            .FirstOrDefault(session => session.SessionId == sessionId);
+            .Where(session => query.Ids is [] || query.Ids.Contains(session.SessionId));
     }
 }

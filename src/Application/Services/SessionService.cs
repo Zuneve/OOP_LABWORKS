@@ -1,4 +1,5 @@
 using Application.Abstractions.Persistence;
+using Application.Abstractions.Persistence.Queries;
 using Itmo.ObjectOrientedProgramming.Application.Contracts.Sessions;
 using Itmo.ObjectOrientedProgramming.Application.Contracts.Sessions.Operations;
 using Itmo.ObjectOrientedProgramming.Application.Mapping;
@@ -23,7 +24,9 @@ public class SessionService : ISessionService
 
     public CreateUserSession.Response CreateUserSession(CreateUserSession.Request request)
     {
-        Account? account = _context.AccountRepository.FindById(new AccountId(request.AccountId));
+        Account? account = _context.AccountRepository
+            .Query(AccountQuery.Build(builder => builder.WithId(new AccountId(request.AccountId))))
+            .SingleOrDefault();
 
         if (account is null || account.AccountPinCode.Value != request.PinCode)
         {

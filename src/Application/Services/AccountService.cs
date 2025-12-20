@@ -1,4 +1,5 @@
 using Application.Abstractions.Persistence;
+using Application.Abstractions.Persistence.Queries;
 using Itmo.ObjectOrientedProgramming.Application.Contracts.Accounts;
 using Itmo.ObjectOrientedProgramming.Application.Contracts.Accounts.Operations;
 using Itmo.ObjectOrientedProgramming.Domain.Accounts;
@@ -20,14 +21,19 @@ public class AccountService : IAccountService
 
     public ShowBalanceAccount.Response ShowBalanceAccount(ShowBalanceAccount.Request request)
     {
-        UserSession? userSession = _context.SessionRepository.TryGetUserSession(request.SessionId);
+        UserSession? userSession = _context.SessionRepository
+            .Query(SessionQuery.Build(builder => builder.WithId(request.SessionId)))
+            .OfType<UserSession>()
+            .SingleOrDefault();
 
         if (userSession is null)
         {
             return new ShowBalanceAccount.Response.Failed();
         }
 
-        Account? account = _context.AccountRepository.FindById(userSession.AccountId);
+        Account? account = _context.AccountRepository
+            .Query(AccountQuery.Build(builder => builder.WithId(userSession.AccountId)))
+            .SingleOrDefault();
 
         if (account is null)
         {
@@ -46,14 +52,19 @@ public class AccountService : IAccountService
 
     public Deposit.Response Deposit(Deposit.Request request)
     {
-        UserSession? userSession = _context.SessionRepository.TryGetUserSession(request.SessionId);
+        UserSession? userSession = _context.SessionRepository
+            .Query(SessionQuery.Build(builder => builder.WithId(request.SessionId)))
+            .OfType<UserSession>()
+            .SingleOrDefault();
 
         if (userSession is null)
         {
             return new Deposit.Response.Failed();
         }
 
-        Account? account = _context.AccountRepository.FindById(userSession.AccountId);
+        Account? account = _context.AccountRepository
+            .Query(AccountQuery.Build(builder => builder.WithId(userSession.AccountId)))
+            .SingleOrDefault();
 
         if (account is null)
         {
@@ -79,14 +90,20 @@ public class AccountService : IAccountService
 
     public Withdraw.Response Withdraw(Withdraw.Request request)
     {
-        UserSession? userSession = _context.SessionRepository.TryGetUserSession(request.SessionId);
+        UserSession? userSession = _context.SessionRepository
+            .Query(SessionQuery.Build(builder => builder.WithId(request.SessionId)))
+            .OfType<UserSession>()
+            .SingleOrDefault();
 
         if (userSession is null)
         {
             return new Withdraw.Response.Failed();
         }
 
-        Account? account = _context.AccountRepository.FindById(userSession.AccountId);
+        // Account? account = _context.AccountRepository.FindById(userSession.AccountId);
+        Account? account = _context.AccountRepository
+            .Query(AccountQuery.Build(builder => builder.WithId(userSession.AccountId)))
+            .SingleOrDefault();
 
         if (account is null)
         {

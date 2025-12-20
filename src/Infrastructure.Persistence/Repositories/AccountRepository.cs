@@ -1,3 +1,4 @@
+using Application.Abstractions.Persistence.Queries;
 using Application.Abstractions.Persistence.Repositories;
 using Application.Abstractions.Persistence.Repositories.ResultTypes;
 using Itmo.ObjectOrientedProgramming.Domain.Accounts;
@@ -16,9 +17,10 @@ public class AccountRepository : IAccountRepository
         return accountRepository;
     }
 
-    public Account? FindById(AccountId accountId)
+    public IEnumerable<Account> Query(AccountQuery query)
     {
-        return _values.FirstOrDefault(account => account.Id == accountId);
+        return _values.
+            Where(account => query.Ids is [] || query.Ids.Contains(account.Id));
     }
 
     public UpdateAccountResult Update(Account account)

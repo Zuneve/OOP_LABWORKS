@@ -1,4 +1,5 @@
 using Application.Abstractions.Persistence;
+using Application.Abstractions.Persistence.Queries;
 using Itmo.ObjectOrientedProgramming.Application.Contracts.Accounts.Operations;
 using Itmo.ObjectOrientedProgramming.Application.Contracts.Admin;
 using Itmo.ObjectOrientedProgramming.Application.Mapping;
@@ -20,7 +21,10 @@ public class AdminService : IAdminService
 
     public CreateAccount.Response CreateAccount(CreateAccount.Request request)
     {
-        AdminSession? adminSession = _context.SessionRepository.TryGetAdminSession(request.SessionId);
+        AdminSession? adminSession = _context.SessionRepository
+            .Query(SessionQuery.Build(builder => builder.WithId(request.SessionId)))
+            .OfType<AdminSession>()
+            .SingleOrDefault();
 
         if (adminSession is null || request.SessionId != adminSession.SessionId)
         {

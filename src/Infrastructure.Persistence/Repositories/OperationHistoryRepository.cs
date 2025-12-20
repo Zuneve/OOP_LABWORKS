@@ -1,5 +1,5 @@
+using Application.Abstractions.Persistence.Queries;
 using Application.Abstractions.Persistence.Repositories;
-using Itmo.ObjectOrientedProgramming.Domain.Accounts;
 using Itmo.ObjectOrientedProgramming.Domain.Operations;
 
 namespace Itmo.ObjectOrientedProgramming.Infrastructure.Persistence.Repositories;
@@ -21,8 +21,9 @@ public class OperationHistoryRepository : IOperationHistoryRepository
         return operationRepository;
     }
 
-    public IEnumerable<Operation> GetOperationsByAccountId(AccountId accountId)
+    public IEnumerable<Operation> Query(OperationHistoryQuery query)
     {
-        return _values.Where(operation => operation.AccountId == accountId);
+        return _values.
+            Where(operation => query.Ids is [] || query.Ids.Contains(operation.AccountId));
     }
 }
