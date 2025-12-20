@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>Itmo.ObjectOrientedProgramming.Lab5</RootNamespace>
+        <RootNamespace>Itmo.ObjectOrientedProgramming.Application.Security</RootNamespace>
     </PropertyGroup>
 
 </Project>
