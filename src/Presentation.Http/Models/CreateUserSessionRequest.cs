@@ -6,7 +6,7 @@ namespace Presentation.Http.Models;
 public sealed class CreateUserSessionRequest
 {
     [Required]
-    public Guid AccountId { get; set; }
+    public long AccountId { get; set; }
 
     [NotNull]
     [Required]

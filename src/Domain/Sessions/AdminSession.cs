@@ -1,11 +1,6 @@
 namespace Itmo.ObjectOrientedProgramming.Domain.Sessions;
 
-public class AdminSession
+public class AdminSession : BaseSession
 {
-    public AdminSession(Guid sessionId)
-    {
-        SessionId = sessionId;
-    }
-
-    public Guid SessionId { get; }
+    public AdminSession(Guid sessionId) : base(sessionId) { }
 }

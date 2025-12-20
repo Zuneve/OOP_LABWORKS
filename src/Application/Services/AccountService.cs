@@ -20,7 +20,7 @@ public class AccountService : IAccountService
 
     public ShowBalanceAccount.Response ShowBalanceAccount(ShowBalanceAccount.Request request)
     {
-        UserSession? userSession = _context.UserSessionRepository.TryGetUserSession(request.SessionId);
+        UserSession? userSession = _context.SessionRepository.TryGetUserSession(request.SessionId);
 
         if (userSession is null)
         {
@@ -37,16 +37,16 @@ public class AccountService : IAccountService
         _context.OperationHistoryRepository.AddOperation(
             new Operation(
                 new Amount(account.AccountBalance.Value),
-                account.Id,
-                OperationType.ShowBalance,
-                request.SessionId));
+                OperationId.Default,
+                new OperationType.ShowBalance(),
+                account.Id));
 
         return new ShowBalanceAccount.Response.Success(account.AccountBalance.Value);
     }
 
     public Deposit.Response Deposit(Deposit.Request request)
     {
-        UserSession? userSession = _context.UserSessionRepository.TryGetUserSession(request.SessionId);
+        UserSession? userSession = _context.SessionRepository.TryGetUserSession(request.SessionId);
 
         if (userSession is null)
         {
@@ -70,16 +70,16 @@ public class AccountService : IAccountService
         _context.OperationHistoryRepository.AddOperation(
             new Operation(
                 new Amount(account.AccountBalance.Value),
-                account.Id,
-                OperationType.Deposit,
-                request.SessionId));
+                OperationId.Default,
+                new OperationType.Deposit(),
+                account.Id));
 
         return new Deposit.Response.Success(account.AccountBalance.Value);
     }
 
     public Withdraw.Response Withdraw(Withdraw.Request request)
     {
-        UserSession? userSession = _context.UserSessionRepository.TryGetUserSession(request.SessionId);
+        UserSession? userSession = _context.SessionRepository.TryGetUserSession(request.SessionId);
 
         if (userSession is null)
         {
@@ -103,9 +103,9 @@ public class AccountService : IAccountService
         _context.OperationHistoryRepository.AddOperation(
             new Operation(
                 new Amount(account.AccountBalance.Value),
-                account.Id,
-                OperationType.Withdraw,
-                request.SessionId));
+                OperationId.Default,
+                new OperationType.Withdraw(),
+                account.Id));
 
         return new Withdraw.Response.Success(account.AccountBalance.Value);
     }

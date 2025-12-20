@@ -1,10 +1,11 @@
+using Itmo.ObjectOrientedProgramming.Domain.Accounts;
 using Itmo.ObjectOrientedProgramming.Domain.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Domain.Operations;
 
 public class Operation
 {
-    public Operation(Amount amount, Guid id, OperationType type, Guid accountId)
+    public Operation(Amount amount, OperationId id, OperationType type, AccountId accountId)
     {
         TransactionAmount = amount;
         Id = id;
@@ -13,9 +14,9 @@ public class Operation
         TransactionTime = DateTime.Now;
     }
 
-    public Guid Id { get; }
+    public OperationId Id { get; }
 
-    public Guid AccountId { get; }
+    public AccountId AccountId { get; }
 
     public Amount TransactionAmount { get; }
 

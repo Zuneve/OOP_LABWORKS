@@ -4,12 +4,4 @@
         <RootNamespace>Itmo.ObjectOrientedProgramming.Application.Contracts</RootNamespace>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Domain\Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Accounts\ResultTypes\" />
-    </ItemGroup>
-
 </Project>

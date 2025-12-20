@@ -7,8 +7,8 @@ public static class OperationMappingExtensions
 {
     public static OperationDto MapToDto(this Operation operation)
         => new OperationDto(
-            operation.Id,
+            operation.Id.Value,
             operation.TransactionAmount.Value,
             operation.TransactionTime,
-            operation.Type);
+            operation.Type.ToString());
 }

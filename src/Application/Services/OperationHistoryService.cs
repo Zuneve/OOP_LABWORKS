@@ -18,7 +18,7 @@ public class OperationHistoryService : IOperationHistoryService
 
     public ShowOperationHistory.Response ShowOperationHistory(ShowOperationHistory.Request request)
     {
-        UserSession? userSession = _context.UserSessionRepository.TryGetUserSession(request.SessionId);
+        UserSession? userSession = _context.SessionRepository.TryGetUserSession(request.SessionId);
 
         if (userSession is null)
         {

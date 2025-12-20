@@ -8,12 +8,15 @@ public class AccountRepository : IAccountRepository
 {
     private readonly List<Account> _values = [];
 
-    public void Add(Account account)
+    public Account Add(Account account)
     {
-        _values.Add(account);
+        var accountRepository = new Account(new AccountId(_values.Count), account.AccountPinCode);
+        _values.Add(accountRepository);
+
+        return accountRepository;
     }
 
-    public Account? FindById(Guid accountId)
+    public Account? FindById(AccountId accountId)
     {
         return _values.FirstOrDefault(account => account.Id == accountId);
     }

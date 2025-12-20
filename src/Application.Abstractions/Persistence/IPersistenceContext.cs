@@ -8,5 +8,5 @@ public interface IPersistenceContext
 
     IOperationHistoryRepository OperationHistoryRepository { get; }
 
-    IUserSessionRepository UserSessionRepository { get; }
+    ISessionRepository SessionRepository { get; }
 }

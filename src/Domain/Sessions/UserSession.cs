@@ -1,19 +1,18 @@
+using Itmo.ObjectOrientedProgramming.Domain.Accounts;
 using Itmo.ObjectOrientedProgramming.Domain.ValueObjects;
 
 namespace Itmo.ObjectOrientedProgramming.Domain.Sessions;
 
-public class UserSession
+public class UserSession : BaseSession
 {
-    public UserSession(Guid sessionId, Guid accountId, PinCode userPinCode)
+    public UserSession(Guid sessionId, AccountId accountId, PinCode userPinCode)
+        : base(sessionId)
     {
-        SessionId = sessionId;
         AccountId = accountId;
         UserPinCode = userPinCode;
     }
 
-    public Guid SessionId { get; }
-
-    public Guid AccountId { get; }
+    public AccountId AccountId { get; }
 
     public PinCode UserPinCode { get; }
 }

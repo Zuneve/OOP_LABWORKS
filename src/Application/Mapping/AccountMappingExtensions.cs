@@ -6,5 +6,5 @@ namespace Itmo.ObjectOrientedProgramming.Application.Mapping;
 public static class AccountMappingExtensions
 {
     public static AccountDto MapToDto(this Account account)
-        => new AccountDto(account.Id, account.AccountPinCode.Value);
+        => new AccountDto(account.Id.Value, account.AccountPinCode.Value);
 }

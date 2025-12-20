@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
 
         collection.AddSingleton<IAccountRepository, AccountRepository>();
         collection.AddSingleton<IOperationHistoryRepository, OperationHistoryRepository>();
-        collection.AddSingleton<IUserSessionRepository, UserSessionRepository>();
+        collection.AddSingleton<ISessionRepository, SessionRepository>();
 
         return collection;
     }

@@ -1,6 +1,7 @@
 using Application.Abstractions.Persistence;
 using Itmo.ObjectOrientedProgramming.Application.Contracts.Sessions;
 using Itmo.ObjectOrientedProgramming.Application.Contracts.Sessions.Operations;
+using Itmo.ObjectOrientedProgramming.Application.Mapping;
 using Itmo.ObjectOrientedProgramming.Application.Security;
 using Itmo.ObjectOrientedProgramming.Domain.Accounts;
 using Itmo.ObjectOrientedProgramming.Domain.Sessions;
@@ -22,21 +23,17 @@ public class SessionService : ISessionService
 
     public CreateUserSession.Response CreateUserSession(CreateUserSession.Request request)
     {
-        Account? account = _context.AccountRepository.FindById(request.AccountId);
+        Account? account = _context.AccountRepository.FindById(new AccountId(request.AccountId));
 
         if (account is null || account.AccountPinCode.Value != request.PinCode)
         {
             return new CreateUserSession.Response.Failed();
         }
 
-        var userSession = new UserSession(
-            Guid.NewGuid(),
-            request.AccountId,
-            new PinCode(request.PinCode));
+        UserSession userSession = _context.SessionRepository
+            .CreateUserSession(account.Id, new PinCode(request.PinCode));
 
-        _context.UserSessionRepository.AddUserSession(userSession);
-
-        return new CreateUserSession.Response.Success(userSession);
+        return new CreateUserSession.Response.Success(userSession.MapToDto());
     }
 
     public CreateAdminSession.Response CreateAdminSession(CreateAdminSession.Request request)
@@ -46,6 +43,8 @@ public class SessionService : ISessionService
             return new CreateAdminSession.Response.Failed();
         }
 
-        return new CreateAdminSession.Response.Success(new AdminSession(Guid.NewGuid()));
+        AdminSession adminSession = _context.SessionRepository.CreateAdminSession();
+
+        return new CreateAdminSession.Response.Success(adminSession.MapToDto());
     }
 }

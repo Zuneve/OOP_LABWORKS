@@ -6,5 +6,12 @@ public static class CreateAccount
 {
     public readonly record struct Request(Guid SessionId, string PinCode);
 
-    public readonly record struct Response(AccountDto Account);
+    public abstract record Response
+    {
+        private Response() { }
+
+        public sealed record Success(AccountDto AccountDto) : Response;
+
+        public sealed record Failed() : Response;
+    }
 }

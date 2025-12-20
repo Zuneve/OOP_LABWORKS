@@ -3,6 +3,7 @@ using Itmo.ObjectOrientedProgramming.Application.Contracts.Accounts.Operations;
 using Itmo.ObjectOrientedProgramming.Application.Contracts.Admin;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Http.Models;
+using System.Diagnostics;
 
 namespace Presentation.Http.Controllers;
 
@@ -23,6 +24,11 @@ public sealed class AdminController : ControllerBase
         var request = new CreateAccount.Request(httpRequest.SessionId, httpRequest.PinCode);
         CreateAccount.Response response = _adminService.CreateAccount(request);
 
-        return Ok(response.Account);
+        return response switch
+        {
+            CreateAccount.Response.Success success => Ok(success.AccountDto),
+            CreateAccount.Response.Failed failed => BadRequest("Wrong password"),
+            _ => throw new UnreachableException(),
+        };
     }
 }

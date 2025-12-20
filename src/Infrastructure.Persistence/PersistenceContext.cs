@@ -5,16 +5,16 @@ namespace Itmo.ObjectOrientedProgramming.Infrastructure.Persistence;
 
 public sealed class PersistenceContext : IPersistenceContext
 {
-    public PersistenceContext(IAccountRepository accountRepository, IOperationHistoryRepository operationHistoryRepository, IUserSessionRepository userSessionRepository)
+    public PersistenceContext(IAccountRepository accountRepository, IOperationHistoryRepository operationHistoryRepository, ISessionRepository sessionRepository)
     {
         AccountRepository = accountRepository;
         OperationHistoryRepository = operationHistoryRepository;
-        UserSessionRepository = userSessionRepository;
+        SessionRepository = sessionRepository;
     }
 
     public IAccountRepository AccountRepository { get; }
 
     public IOperationHistoryRepository OperationHistoryRepository { get; }
 
-    public IUserSessionRepository UserSessionRepository { get; }
+    public ISessionRepository SessionRepository { get; }
 }

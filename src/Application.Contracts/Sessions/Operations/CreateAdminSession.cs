@@ -1,4 +1,4 @@
-using Itmo.ObjectOrientedProgramming.Domain.Sessions;
+using Itmo.ObjectOrientedProgramming.Application.Contracts.Sessions.Models;
 
 namespace Itmo.ObjectOrientedProgramming.Application.Contracts.Sessions.Operations;
 
@@ -10,7 +10,7 @@ public static class CreateAdminSession
     {
         private Response() { }
 
-        public sealed record Success(AdminSession AdminSession) : Response;
+        public sealed record Success(AdminSessionDto AdminSession) : Response;
 
         public sealed record Failed() : Response;
     }

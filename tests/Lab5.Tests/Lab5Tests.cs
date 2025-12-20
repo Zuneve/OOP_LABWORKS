@@ -15,7 +15,7 @@ public class Lab5Tests
     public void WithdrawResult_ShouldReturn_Success_When_Account_Has_Enough_Money()
     {
         // arrange
-        var account = new Account(Guid.NewGuid(), new PinCode("1234"));
+        var account = new Account(AccountId.Default, new PinCode("1234"));
         _accountRepository.FindById(account.Id).Returns(account);
 
         // act
@@ -33,7 +33,7 @@ public class Lab5Tests
     public void WithdrawResult_ShouldReturn_Failed_When_Account_HasNot_Enough_Money()
     {
         // arrange
-        var account = new Account(Guid.NewGuid(), new PinCode("1234"));
+        var account = new Account(AccountId.Default, new PinCode("1234"));
         _accountRepository.FindById(account.Id).Returns(account);
 
         // act
@@ -50,7 +50,7 @@ public class Lab5Tests
     public void Account_Should_Update_Balance_After_Deposit()
     {
         // arrange
-        var account = new Account(Guid.NewGuid(), new PinCode("1234"));
+        var account = new Account(AccountId.Default, new PinCode("1234"));
         _accountRepository.FindById(account.Id).Returns(account);
 
         // act

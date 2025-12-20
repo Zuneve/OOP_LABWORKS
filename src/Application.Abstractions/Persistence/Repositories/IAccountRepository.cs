@@ -5,9 +5,9 @@ namespace Application.Abstractions.Persistence.Repositories;
 
 public interface IAccountRepository
 {
-    void Add(Account account);
+    Account Add(Account account);
 
-    Account? FindById(Guid accountId);
+    Account? FindById(AccountId accountId);
 
     UpdateAccountResult Update(Account account);
 }

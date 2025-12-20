@@ -5,14 +5,14 @@ namespace Itmo.ObjectOrientedProgramming.Domain.Accounts;
 
 public class Account
 {
-    public Account(Guid id, PinCode accountPinCode)
+    public Account(AccountId id, PinCode accountPinCode)
     {
         Id = id;
         AccountBalance = new Balance(0);
         AccountPinCode = accountPinCode;
     }
 
-    public Guid Id { get; }
+    public AccountId Id { get; }
 
     public Balance AccountBalance { get; private set; }
 
